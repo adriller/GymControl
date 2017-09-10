@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/functions.js"></script>
+  <!--Design Libraries-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!--fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+    <!--theme-->
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-amber.css">
+    <!--icon-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="w3-bar w3-black w3-text-orange header">
+      <a href="main.html" class="w3-bar-item w3-button w3-hover-white">Home</a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small">My workouts</a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small">Statistics</a>
+      <a href="#" class="w3-bar-item w3-right w3-button w3-hide-small">Logout</a>
+      <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium w3-hover-white" onclick="openNav()">&#9776;</a>
+    </div>
+    <div  class="w3-container fundo">
+      <div id="menuMobile" class="w3-bar-block w3-theme-l1 w3-hide w3-hide-large w3-hide-medium">
+        <a href="#" class="w3-bar-item w3-hover-white w3-border-bottom w3-border-black w3-button">My workouts</a>
+        <a href="#" class="w3-bar-item w3-hover-white w3-button w3-border-bottom w3-border-black">Statistics</a>
+        <a href="#" class="w3-bar-item w3-hover-white w3-button w3-border-bottom w3-border-black">Logout</a>
+      </div>
+      <div class="w3-container w3-center w3-padding w3-light-gray divMain">
+        <h1 class="w3-allerta w3-text-black bigFont">Select workout</h1>
+
+        <div class="w3-container divSelectWork" id="scrollwrapper">
+          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk1" onclick="select(wk1)">Chest & Triceps</a>
+          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk2" onclick="select(wk2)">Legs & Calves</a>
+          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk3" onclick="select(wk3)">Back, Biceps & Abs</a>
+          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk4" onclick="select(wk4)">4</a>
+          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk5" onclick="select(wk5)">5</a>
+          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk6" onclick="select(wk6)">66</a>
+
+        </div>
+
+        <div class="w3-container w3-button addNew w3-border w3-round-large w3-padding w3-orange w3-hover-black" onclick="location.href = 'addnew.html';">Add new workout&emsp;<i class="fa fa-plus-square-o"></i></div>
+        <br>
+        <div id="btnStart" class="w3-disabled w3-container w3-button start w3-border w3-round-large w3-green w3-hover-black "  onclick="location.href = 'workout.html';">Confirm&emsp;<i class="fa fa-check-square-o"></i></div>
+
+      </div>
+    </div>
+
+    <script>
+      function openNav() {
+        var x = document.getElementById("menuMobile");
+        if (x.className.indexOf("w3-show") == -1) {
+          x.className += " w3-show";
+        } else {
+          x.className = x.className.replace(" w3-show", "");
+        }
+      }
+      var scroller = new iScroll('scrollwrapper', { desktopCompatibility : true });
+
+
+    </script>
+  </body>
+</html>
