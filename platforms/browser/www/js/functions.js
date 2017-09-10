@@ -24,12 +24,6 @@ function addEx(){
   //send to db
 }
 
-function doneSer(){
-  document.getElementById('modalDone').style.display='block';
-  //Save reps and  weight
-  //next ser
-}
-
 function doneEx(){
   //next ex
 }
@@ -47,12 +41,12 @@ function minusReps(){
 
 function plusWeights(){
   //alert($("#valueRep").val());
-  $("#valueWeight").val(parseInt($("#valueWeight").val()) + 0.5);
+  $("#valueWeight").val(parseFloat($("#valueWeight").val()) + 0.5);
 }
 
 function minusWeights(){
   //alert($("#valueRep").val());
-  $("#valueWeight").val(parseInt($("#valueWeight").val()) - 0.5);
+  $("#valueWeight").val(parseFloat($("#valueWeight").val()) - 0.5);
 }
 
 
