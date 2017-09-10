@@ -45,8 +45,8 @@ var Battery = {
             };
 
             if (typeof navigator.getBattery === 'function') {
-                navigator.getBattery().then(function(battery) { 
-                    subscribe(battery); 
+                navigator.getBattery().then(function(battery) {
+                    subscribe(battery);
                 });
             } else {
                 var origBattery = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.battery');

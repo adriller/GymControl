@@ -72,18 +72,18 @@ Battery.prototype._status = function (info) {
 
     if (info) {
         if (battery._level !== info.level || battery._isPlugged !== info.isPlugged) {
-            
+
             if(info.level === null && battery._level !== null) {
                 return; // special case where callback is called because we stopped listening to the native side.
             }
-            
+
             // Something changed. Fire batterystatus event
             cordova.fireWindowEvent("batterystatus", info);
 
             if (!info.isPlugged) { // do not fire low/critical if we are charging. issue: CB-4520
-                // note the following are NOT exact checks, as we want to catch a transition from 
+                // note the following are NOT exact checks, as we want to catch a transition from
                 // above the threshold to below. issue: CB-4519
-                if (battery._level > STATUS_CRITICAL && info.level <= STATUS_CRITICAL) { 
+                if (battery._level > STATUS_CRITICAL && info.level <= STATUS_CRITICAL) {
                     // Fire critical battery event
                     cordova.fireWindowEvent("batterycritical", info);
                 }

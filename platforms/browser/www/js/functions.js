@@ -5,6 +5,7 @@ function select(id){
   $(id).addClass("w3-black");
   $(selected).removeClass("w3-black");
   $("#btnStart").removeClass("w3-disabled");
+  $('#btnStart').removeAttr("disabled")
   selected = id;
 }
 
@@ -28,4 +29,14 @@ function plusReps(){
 function minusReps(){
   //alert($("#valueRep").val());
   $("#valueRep").val(parseInt($("#valueRep").val()) - 1);
+}
+
+function plusWeights(){
+  //alert($("#valueRep").val());
+  $("#valueWeight").val(parseInt($("#valueWeight").val()) + 0.5);
+}
+
+function minusWeights(){
+  //alert($("#valueRep").val());
+  $("#valueWeight").val(parseInt($("#valueWeight").val()) - 0.5);
 }

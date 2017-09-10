@@ -604,7 +604,7 @@ module.exports = [
         ]
     }
 ];
-module.exports.metadata = 
+module.exports.metadata =
 // TOP OF METADATA
 {
     "cordova-plugin-battery-status": "1.1.2",

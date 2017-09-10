@@ -25,7 +25,7 @@ var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
     Contact = require('./Contact'),
     fieldType = require('./ContactFieldType');
-    
+
 
 /**
 * Represents a group of Contacts.
@@ -58,7 +58,7 @@ var contacts = {
             exec(win, errorCB, "Contacts", "search", [fields, options]);
         }
     },
-    
+
     /**
      * This function picks contact from phone using contact picker UI
      * @returns new Contact object

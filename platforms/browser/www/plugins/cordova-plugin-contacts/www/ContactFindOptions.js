@@ -24,7 +24,7 @@ cordova.define("cordova-plugin-contacts.ContactFindOptions", function(require, e
  * @constructor
  * @param filter used to match contacts against
  * @param multiple boolean used to determine if more than one contact should be returned
- * @param desiredFields 
+ * @param desiredFields
  * @param hasPhoneNumber boolean used to filter the search and only return contacts that have a phone number informed
  */
 
