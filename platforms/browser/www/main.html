@@ -5,7 +5,7 @@
     <!--jQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="js/functions.js"></script>
-  <!--Design Libraries-->
+    <!--Design Libraries-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -34,7 +34,7 @@
       <div class="w3-container w3-center w3-padding w3-light-gray divMain">
         <h1 class="w3-allerta w3-text-black bigFont">Select workout</h1>
 
-        <div class="w3-container divSelectWork" id="scrollwrapper">
+        <div class="w3-container divSelectWork" id="workoutsPanel">
           <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk1" onclick="select(wk1)">Chest & Triceps</a>
           <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk2" onclick="select(wk2)">Legs & Calves</a>
           <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk3" onclick="select(wk3)">Back, Biceps & Abs</a>
@@ -60,7 +60,19 @@
           x.className = x.className.replace(" w3-show", "");
         }
       }
-      var scroller = new iScroll('scrollwrapper', { desktopCompatibility : true });
+
+      $( "#workoutsPanel" ).ready(function() {
+        getWorkouts();
+        var wksHTML = "";
+        var element =  $("#workoutsPanel");
+        var wks = JSON.parse(localStorage.wks);
+
+        for(i in wks.workouts){
+          wksHTML += '<a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk' + wks.workouts[i].ID +'" onclick="select(\'wk' + wks.workouts[i].ID + '\',\'' + wks.workouts[i].name  +'\')">' + wks.workouts[i].name + '</a>';
+        }
+        element.html(wksHTML);
+      });
+
 
 
     </script>

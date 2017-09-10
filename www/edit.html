@@ -32,11 +32,11 @@
         <a href="#" class="w3-bar-item w3-hover-white w3-button w3-border-bottom w3-border-black">Logout</a>
       </div>
       <div class="w3-container w3-center w3-padding w3-light-gray divMain">
-        <h1 class="w3-allerta w3-text-black bigFont">Workout Name</h1>
+        <h1 id="nameWork" class="w3-allerta w3-text-black bigFont">Workout Name</h1>
 
         <p>Click on the exercice to edit</p>
 
-        <div class="w3-container divSelectWork" id="scrollwrapper">
+        <div class="w3-container divSelectWork" id="WorkoutViewerEdit">
           <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk1" onclick="editEx(wk1)">
             Brench Press - 15.5kg<br>
             reps: 10 10 10 10</a>
@@ -106,7 +106,27 @@
           x.className = x.className.replace(" w3-show", "");
         }
       }
-      var scroller = new iScroll('scrollwrapper', { desktopCompatibility : true });
+
+      $( "#WorkoutViewerEdit" ).ready(function() {
+        getExercices();
+        var exsHTML = "";
+        var element =  $("#WorkoutViewerEdit");
+        var exs = JSON.parse(localStorage.exs);
+        for(i in exs.exercices){
+          exsHTML += ' <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="'+
+            exs.exercices[i].ID + '" onclick="editEx(\''+
+            exs.exercices[i].ID + '\')">'+
+            exs.exercices[i].name + ' - ' + exs.exercices[i].weight + 'kg<br>' +
+            'rest: ' + exs.exercices[i].rest + '</a>';
+        }
+        element.html(exsHTML);
+      });
+
+      $( "#nameWork" ).ready(function() {
+        var nameWk =  $("#nameWork");
+        var name = localStorage.selectedWkName;
+        $("#nameWork").text(name);
+      });
 
 
     </script>
