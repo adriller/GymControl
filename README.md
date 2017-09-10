@@ -1,6 +1,6 @@
-# App to control your exercices at Gym! [![bitHound Score][bithound-img]][bithound-url]
+# App to control your exercices at Gym!
 
-Built with PhoneGap
+Built with PhoneGap. 
 Release Date: 24/09 
 
 ## Usage
