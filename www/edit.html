@@ -37,60 +37,100 @@
         <p>Click on the exercice to edit</p>
 
         <div class="w3-container divSelectWork" id="WorkoutViewerEdit">
-          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk1" onclick="editEx(wk1)">
+          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk1" onclick="editForm(wk1)">
             Brench Press - 15.5kg<br>
             reps: 10 10 10 10</a>
-          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk2" onclick="editEx(wk2)">
+          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk2" onclick="editForm(wk2)">
             Brench Press - 15.5kg<br>
             reps: 10 10 10 10</a>
-          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk3" onclick="editEx(wk3)">
+          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk3" onclick="editForm(wk3)">
             Brench Press - 15.5kg<br>
             reps: 10 10 10 10</a>
-          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk4" onclick="editEx(wk4)">
+          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk4" onclick="editForm(wk4)">
             Brench Press - 15.5kg<br>
             reps: 10 10 10 10</a>
-          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk5" onclick="editEx(wk5)">Brench Press - 15.5kg<br>
+          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk5" onclick="editForm(wk5)">Brench Press - 15.5kg<br>
             reps: 10 10 10 10
           </a>
-          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk6" onclick="editEx(wk6)">
+          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk6" onclick="editForm(wk6)">
             Brench Press - 15.5kg<br>
             reps: 10 10 10 10</a>
 
 
         </div>
 
-        <br>
+        <div class="w3-container lineBreak">
+          <div class=" w3-button w3-circle w3-border plusBtn w3-right w3-yellow w3-hover-black " onclick="AddExForm()"><i class="fa fa-plus"></i></div>
+        </div>
+
         <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-red w3-hover-black ">Delete &emsp;<i class="fa fa-trash"></i></div>
-        <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-orange w3-hover-black w3-text-white">Back &emsp;<i class="fa fa-arrow-circle-o-left"></i></div>
+        <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-orange w3-hover-black w3-text-white" onclick="location.href = 'workout.html';">Back &emsp;<i class="fa fa-arrow-circle-o-left"></i></div>
 
         <div id="modalEdit" class="w3-modal">
           <div class="w3-modal-content w3-card-4">
             <header class="w3-container w3-theme w3-padding">
               <span onclick="document.getElementById('modalEdit').style.display='none'"
                     class="w3-button w3-display-topright fontTitleSmall iconX w3-hover-white">&times;</span>
-              <a class="fontTitleSmall w3-allerta ">Exercise Name</a>
+              <a id="formEditName" class="fontTitleSmall w3-allerta ">Exercise Name</a>
             </header>
-            <div class="w3-container w3-theme-l4 w3-padding">
+            <form id="formSub" onsubmit="editEx()">
+              <div class="w3-container w3-theme-l4 w3-padding">
 
-              <label class="w3-text-black labelEdit w3-left">Name</label>
-              <input class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="text" required>
+                <label class="w3-text-black labelEdit w3-left">Name</label>
+                <input id="iexName"class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="text" required>
 
-              <label class="w3-text-black labelEdit w3-left">Weight</label>
-              <input class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="number" required>
+                <label class="w3-text-black labelEdit w3-left">Weight</label>
+                <input id="iexWeight" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="number" required>
 
-              <label class="w3-text-black labelEdit w3-left">Number of series</label>
-              <input class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="number" required>
+                <label class="w3-text-black labelEdit w3-left">Number of series</label>
+                <input id="iexSeries" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="number" required>
 
-              <label class="w3-text-black labelEdit w3-left">Time between series</label>
-              <input class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="number" required>
+                <label class="w3-text-black labelEdit w3-left">Time between series</label>
+                <input id="iexRest" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="number" required>
 
-              <label class="w3-text-black labelEdit w3-left">Anotations</label>
-              <input class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="text">
+                <label class="w3-text-black labelEdit w3-left">Anotations</label>
+                <input id="iexAnn" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="text">
 
-            </div>
-            <div class="w3-container w3-padding w3-theme">
-              <div class="w3-container w3-button confirmEdit w3-border w3-round-large w3-black w3-hover-white ">Confirm &emsp;<i class="fa fa-check"></i></div>
-            </div>
+              </div>
+              <div class="w3-container w3-padding w3-theme">
+                <button type="button" class="w3-container w3-button confirmEdit w3-border w3-round-large w3-red w3-hover-white " onclick="deleteEx()">Delete &emsp;<i class="fa fa-trash"></i></button>
+
+                <button type="submit" class="w3-container w3-button confirmEdit w3-border w3-round-large w3-black w3-hover-white ">Confirm &emsp;<i class="fa fa-check"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div id="modalAdd" class="w3-modal">
+          <div class="w3-modal-content w3-card-4">
+            <header class="w3-container w3-theme w3-padding">
+              <span onclick="document.getElementById('modalAdd').style.display='none'"
+                    class="w3-button w3-display-topright fontTitleSmall iconX w3-hover-white">&times;</span>
+              <a id="formAddName" class="fontTitleSmall w3-allerta ">New Exercice</a>
+            </header>
+            <form  onsubmit="addEx()">
+              <div class="w3-container w3-theme-l4 w3-padding">
+
+                <label class="w3-text-black labelEdit w3-left">Name</label>
+                <input id="aexName"class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="text" required>
+
+                <label class="w3-text-black labelEdit w3-left">Weight</label>
+                <input id="aexWeight" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="number" required>
+
+                <label class="w3-text-black labelEdit w3-left">Number of series</label>
+                <input id="aexSeries" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="number" required>
+
+                <label class="w3-text-black labelEdit w3-left">Time between series</label>
+                <input id="aexRest" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="number" required>
+
+                <label class="w3-text-black labelEdit w3-left">Anotations</label>
+                <input id="aexAnn" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="text">
+
+              </div>
+              <div class="w3-container w3-padding w3-theme">
+                <button type="submit" class="w3-container w3-button confirmEdit w3-border w3-round-large w3-black w3-hover-white ">Confirm &emsp;<i class="fa fa-check"></i></button>
+              </div>
+            </form>
           </div>
         </div>
 
@@ -107,6 +147,11 @@
         }
       }
 
+      /*$('#formSub').submit(function(e) {
+        //alert("p");
+        e.preventDefault();
+      });*/
+
       $( "#WorkoutViewerEdit" ).ready(function() {
         getExercices();
         var exsHTML = "";
@@ -114,8 +159,8 @@
         var exs = JSON.parse(localStorage.exs);
         for(i in exs.exercices){
           exsHTML += ' <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="'+
-            exs.exercices[i].ID + '" onclick="editEx(\''+
-            exs.exercices[i].ID + '\')">'+
+            exs.exercices[i].ID + '" onclick="editForm(\''+
+            exs.exercices[i].ID + '\', \''+  exs.exercices[i].name + '\')">'+
             exs.exercices[i].name + ' - ' + exs.exercices[i].weight + 'kg<br>' +
             'rest: ' + exs.exercices[i].rest + '</a>';
         }
@@ -127,6 +172,19 @@
         var name = localStorage.selectedWkName;
         $("#nameWork").text(name);
       });
+
+      function editForm(id, name){
+        document.getElementById('modalEdit').style.display='block';
+        localStorage.editExID = id;
+        localStorage.editExName = name;
+        //alert(name);
+        $("#formEditName").text(name);
+      }
+
+      function AddExForm(){
+        document.getElementById('modalAdd').style.display='block';
+
+      }
 
 
     </script>

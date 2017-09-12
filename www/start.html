@@ -17,6 +17,7 @@
 
       <div class="w3-container w3-center nomeExDiv">
         <h1 id="exName" class="w3-allerta w3-text-white nomeEx">Exercice Name</h1>
+        <span id="congrat" class="w3-allerta letterSerie w3-text-orange">Serie: <span id="numS">2</span></span>
       </div>
 
       <div class="w3-container w3-center timer">
@@ -24,13 +25,47 @@
       </div>
 
       <div class="w3-container w3-allerta lastInfo w3-text-light-gray">
-        <p class="w3-center">Last time info</p>
-        Weight: 15kg <br>
-        Repetitions: 10
+        <table>
+          <tr class="w3-black">
+            <th colspan="3">28/07</th>
+          </tr>
+          <tr class="w3-orange">
+            <td>Serie</td>
+            <td>Weight</td>
+            <td>Reps</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>15kg</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>15kg</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>15kg</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>15kg</td>
+            <td>10</td>
+          </tr>
+        </table>
+
+        <table id="tableToday">
+
+
+        </table>
       </div>
 
       <div class="w3-container  w3-center w3-margin">
         <button id="btnDone" class="w3-button w3-orange w3-round-large textFontSize w3-allerta" onclick="doneSer()">Done !</button>
+
+        <button id="btnSaveR" class="w3-hide w3-button w3-green w3-round-large  w3-allerta" onclick="finish()">Finish</button>
       </div>
 
 
@@ -68,7 +103,7 @@
 
           </div>
           <div class="w3-container w3-center w3-padding w3-theme w3-light-gray">
-            <div class="w3-container w3-button confirmEdit w3-border w3-round-large w3-black w3-hover-white ">Confirm &emsp;<i class="fa fa-check"></i></div>
+            <div class="w3-container w3-button confirmEdit w3-border w3-round-large w3-black w3-hover-white " onclick="saveResults()">Confirm &emsp;<i class="fa fa-check"></i></div>
           </div>
         </div>
       </div>
@@ -77,41 +112,125 @@
     <script>
 
       var ex = JSON.parse(localStorage.exs);
-      var timeLeft = 5;
       var elem = document.getElementById('count');
+      var numS = document.getElementById('numS');
       var timerID;
-      var serieNumber = 1;
+      var serieNumber = 0;
       var workoutNumber = 0;
+      var timeLeft = ex.exercices[0].rest;
       var maxExerc = ex.exercices.length;
       var exName = ex.exercices[0].name;
+      var exAntName = exName;
       var maxSeries = ex.exercices[0].reps;
+      var serAnt = 0;
+      var exResults = {
+        "series" : []
+      };
 
       $( "#exName" ).ready(function() {
         $("#exName").text(exName);
+        $("#numS").text(serieNumber+1);
       });
+
+      $( "#tableToday" ).ready(function() {
+        createTableToday();
+      });
+
+      function createTableToday(){
+        var append = '	<tr class="w3-black">'
+        +'          <th colspan="3">Today</th>'
+        +'        </tr>'
+        +'        <tr class="w3-orange">'
+        +'          <td>Serie</td>  '
+        +'          <td>Weight</td> '
+        +'          <td>Reps</td>'
+        +'        </tr>';
+        for(var i = 0 ; i < maxSeries ; i++){
+          append += '<tr>';
+          append += '<td>'+ (i+1) +'</td>';
+          append += '<td id="Wtoday' + i +'"> </td>';
+          append += '<td id="Rtoday' + i +'"> </td>';
+          append += '</tr>';
+        }
+        $("#tableToday").html(append);
+      }
+
+      function setTable(){
+        $("#Wtoday" + serAnt).text($(valueWeight).val());
+        $("#Rtoday" + serAnt).text($(valueRep).val());
+      }
 
       function doneSer(){
         document.getElementById('modalDone').style.display='block';
-        timerID = setInterval(countdown, 1000);
 
-        if(serieNumber == maxSeries){
-          workoutNumber++;
-          serieNumber = 0;
-          $("#exName").text(ex.exercices[workoutNumber].name);
+        if(serieNumber == maxSeries - 1){
+          if(workoutNumber == maxExerc -1){
+            $("#exName").text("You did");
+            elem.innerHTML = 'IT';
+            $("#btnDone").addClass("w3-hide");
+            $("#btnSaveR").removeClass("w3-hide");
+            $("#congrat").text("Congratulations");
+            $("#numS").text(" ");
+            serAnt = serieNumber;
+            exAntName = ex.exercices[workoutNumber].name;
+          }else{
+            exAntName = exName;
+            workoutNumber++;
+            serAnt = serieNumber;
+            serieNumber = 0;
+            //alert("a");
+            maxSeries = ex.exercices[workoutNumber].reps;
+            //alert("att name");
+            exName = ex.exercices[workoutNumber].name;
+            timerID = setInterval(countdown, 1000);
+            $("#exName").text(ex.exercices[workoutNumber].name);
+            $("#numS").text(serieNumber+1);
+            createTableToday()
+          }
         }else{
+          //alert("att serie");
+          exAntName = exName;
           serieNumber++;
+          serAnt = serieNumber - 1;
+          $("#numS").text(serieNumber+1);
+          timerID = setInterval(countdown, 1000);
         }
       }
 
       function countdown() {
         if (timeLeft == 0) {
           clearTimeout(timerID);
-          timeLeft = 5;
+          timeLeft = ex.exercices[workoutNumber].rest;
           elem.innerHTML = 'GO';
         } else {
           elem.innerHTML = timeLeft;
           timeLeft--;
         }
+      }
+
+      function saveResults(){
+        var serie = {
+          "exercice" : exAntName,
+          "serieNumber" : serAnt,
+          "reps" : $(valueRep).val(),
+          "weight": $(valueWeight).val()
+        }
+        //alert("pushing");
+        exResults.series.push(serie);
+        //alert("pushed");
+        //alert(JSON.stringify(exResults));
+        document.getElementById('modalDone').style.display='none'
+        if(serAnt < serieNumber || (maxExerc-1 == workoutNumber && serieNumber == maxSeries)){
+          setTable();
+          //alert(serAnt+1);
+          //alert(maxSeries);
+        }
+      }
+
+      function finish(){
+        alert("congrats");
+        localStorage.finalWkResults = JSON.stringify(exResults);
+        finishWorkout();
       }
 
     </script>

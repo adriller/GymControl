@@ -164,16 +164,19 @@ html, body {
 }
 
 .nomeExDiv {
-  margin-top: 6vh;
+  margin-top: 3vh;
 }
 
 .timer {
-  height: 40vh;
+  margin: 0px;
+  padding: 0px;
 }
 
 .countdown {
-  font-size: 25vh;
+  font-size: 22vh;
   text-shadow: 1vh 1vh 1vh black;
+  margin:0;
+  padding: 0;
 }
 
 .iconFontSize {
@@ -227,4 +230,43 @@ html, body {
   margin: 0;
   height: 100%;
   text-align: center;
+}
+
+.letterSerie {
+  font-size: 4vh;
+  text-shadow: 0.3vh 0.4vh 0.3vh black;
+  letter-spacing: 0.5vh;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 45%;
+  font-size: 2vh;
+  float: left;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+}
+
+.tableToday {
+
+}
+
+#btnDone {
+  margin: 5%;
+}
+
+#tableToday {
+  margin-left: 10%;
+}
+
+#btnSaveR {
+  font-size: 4vh;
+  text-shadow: 0.2vh 0.2vh 0.2vh black;
 }
