@@ -29,7 +29,7 @@
       <div id="menuMobile" class="w3-bar-block w3-theme-l1 w3-hide w3-hide-large w3-hide-medium">
         <a href="#" class="w3-bar-item w3-hover-white w3-border-bottom w3-border-black w3-button">My workouts</a>
         <a href="#" class="w3-bar-item w3-hover-white w3-button w3-border-bottom w3-border-black">Statistics</a>
-        <a href="#" class="w3-bar-item w3-hover-white w3-button w3-border-bottom w3-border-black">Logout</a>
+        <a href="#" class="w3-bar-item w3-hover-white w3-button w3-border-bottom w3-border-black" onclick="logOut()">Logout</a>
       </div>
       <div class="w3-container w3-center w3-padding w3-light-gray divMain">
         <h1 class="w3-allerta w3-text-black bigFont">Select workout</h1>
@@ -87,7 +87,7 @@
         var wks = JSON.parse(localStorage.wks);
 
         for(i in wks.workouts){
-          wksHTML += '<a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk' + wks.workouts[i].ID +'" onclick="select(\'wk' + wks.workouts[i].ID + '\',\'' + wks.workouts[i].name  +'\')">' + wks.workouts[i].name + '</a>';
+          wksHTML += '<a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk' + wks.workouts[i].ID +'" onclick="select(' + wks.workouts[i].ID + ',\'' + wks.workouts[i].name  +'\')">' + wks.workouts[i].name + '</a>';
         }
         element.html(wksHTML);
       });

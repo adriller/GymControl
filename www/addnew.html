@@ -39,7 +39,7 @@
         </div>
 
         <div class="w3-container lineBreak">
-          <div class=" w3-button w3-circle w3-border plusBtn w3-right w3-yellow w3-hover-black " onclick="addEx()"><i class="fa fa-plus"></i></div>
+          <div class=" w3-button w3-circle w3-border plusBtn w3-right w3-yellow w3-hover-black " onclick="openNewEx()"><i class="fa fa-plus"></i></div>
         </div>
 
         <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-green w3-hover-black " onclick="sendWk()">Save &emsp;<i class="fa fa-floppy-o"></i></div>
@@ -93,6 +93,10 @@
         e.preventDefault();
       });
 
+      function openNewEx(){
+        document.getElementById('modalEdit').style.display='block';
+      }
+
       function pushEx(){
         var ex = {
           "name": $("#iexName").val(),
@@ -111,7 +115,7 @@
         //alert("appended");
         newWk.exercices.push(ex);
         document.getElementById('modalEdit').style.display='none';
-        $("#iexName").val(" ");
+        $("#iexName").val("");
         $("#iexAnn").val(" ");
       }
 

@@ -3,6 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/functions.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -17,24 +18,45 @@
       </div>
       <div class="w3-container w3-center">
 
-        <form class="formLogin w3-container w3-padding ">
+        <form id="formRegister" onsubmit="registerUser()" class="formCadastro w3-container w3-padding ">
 
           <label class="w3-text-white labelShadow">First Name</label>
-          <input class="w3-input w3-border-bottom w3-border-black loginInput" type="text" required>
+          <input  name="name" class="w3-input w3-border-bottom w3-border-black loginInput" type="text" required>
 
           <label class="w3-text-white labelShadow">E-mail</label>
-          <input class="w3-input w3-border-bottom w3-border-black loginInput" type="email" required>
+          <input name="email"  id="emaiRegister" class="w3-input w3-border-bottom w3-border-black loginInput" type="email" required>
 
           <label class="w3-text-white labelShadow">Password</label>
-          <input class="w3-input w3-border-bottom w3-border-black loginInput" type="password" required>
+          <input name="psw"  id="pswReg" class="w3-input w3-border-bottom w3-border-black loginInput" type="password" required>
 
           <label class="w3-text-white labelShadow">Repeat Password</label>
-          <input class="w3-input w3-border-bottom w3-border-black loginInput" type="password" required>
+          <input name="pswr" id="pswRegRep" class="w3-input w3-border-bottom w3-border-black loginInput" type="password" required>
+
+          <div id="msgErroReg" class="w3-hide w3-text-red fontPeq w3-center w3-animate-bottom" > Password Incorrect</div>
 
           <button class="w3-button w3-black loginButton">Register</button>
+
 
         </form>
       </div>
     </div>
+
+    <script>
+      $('#formRegister').ready(function() {
+        if(localStorage.userEmail !== undefined){
+          //alert("logged in automatically");
+          location.href = 'main.html';
+        }
+        else{
+          //alert(localStorage.userEmail);
+        }
+      });
+
+      $('#formRegister').submit(function(e) {
+        //alert("p");
+        e.preventDefault();
+      });
+    </script>
+
   </body>
 </html>

@@ -3,6 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/functions.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -17,22 +18,43 @@
       </div>
       <div class="w3-container w3-center">
 
-        <form class="w3-container w3-center w3-padding w3-margin-top">
+        <form id="formLogin" onsubmit="checkLogin()" class="w3-container w3-center w3-padding w3-margin-top">
 
           <label class="w3-text-white labelShadow">E-mail</label>
-          <input class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="email" required>
+          <input id="emailLogin" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" name="email" type="email" required>
 
           <label class="w3-text-white labelShadow">Password</label>
-          <input class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="password" required>
+          <input id="senhaLogin" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" name="senha" type="password" required>
 
-          <button class="w3-button w3-black loginButton textFontSize">Login</button>
+          <div id="msgErroLogin" class="w3-hide w3-text-red fontPeq w3-center w3-animate-bottom" > Password Incorrect</div>
+
+          <button type="submit" class="w3-button w3-black loginButton textFontSize">Login</button>
 
           <br><a href="main.html" class="textFontSize"> Iniciar sem login</a>
 
           <br><br><a href="cadastro.html" class="textFontSize">Create Account</a>
 
         </form>
+
       </div>
+
     </div>
+    <script>
+      $('#formLogin').submit(function(e) {
+        //alert("p");
+        e.preventDefault();
+      });
+
+      $('#formLogin').ready(function() {
+        if(localStorage.userEmail !== undefined){
+          //alert("logged in automatically");
+          location.href = 'main.html';
+        }
+        else{
+          //alert(localStorage.userEmail);
+        }
+      });
+
+    </script>
   </body>
 </html>

@@ -1,16 +1,30 @@
+var loginPage = "http://localhost/servGymControl/login.php";
+//var loginPage = "http://gymcontrol.co.nf/login.php";
+var registerPage = "http://localhost/servGymControl/register.php";
+var workoutsPage = "http://localhost/servGymControl/workouts.php";
+var exercicesPage = "http://localhost/servGymControl/exercices.php";
+var addExPage = "http://localhost/servGymControl/addExercice.php";
+var addWkPage = "http://localhost/servGymControl/addWorkout.php";
+
 function select(id, nameWk){
-  $('#' + id).addClass("w3-black");
+  $('#wk' + id).addClass("w3-black");
 
   var prevWork = localStorage.selectedWkID;
 
   if(prevWork != null && prevWork != id)
-    $('#' + prevWork).removeClass("w3-black");
+    $('#wk' + prevWork).removeClass("w3-black");
 
   $("#btnStart").removeClass("w3-disabled");
   $('#btnStart').removeAttr("disabled");
 
   localStorage.selectedWkID = id;
   localStorage.selectedWkName =  nameWk;
+}
+
+function logOut(){
+  localStorage.removeItem("userEmail");
+  localStorage.removeItem("userSenha");
+  location.href = 'index.html';
 }
 
 /*Controls quantity*/
@@ -36,8 +50,42 @@ function minusWeights(){
 
 
 /*Getters from DB*/
+
+function checkLogin(){
+  var sendData = $("#formLogin").serialize();
+  $.get( loginPage, sendData )
+    .done(function(data){
+    alert(data);
+    localStorage.userEmail = $("#emailLogin").val();
+    localStorage.userSenha = $("#senhaLogin").val();
+    location.href = 'main.html';
+  })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+    if(jqXHR.status == 404){
+      $("#msgErroLogin").text("Password Incorrect");
+    }
+    else if(jqXHR.status == 500){
+      $("#msgErroLogin").text("Server Error. Try later");
+    }
+    $("#msgErroLogin").removeClass("w3-hide");
+    setTimeout(function(){ $("#msgErroLogin").addClass("w3-hide"); }, 2000);
+  });
+}
+
 function getWorkouts( ){
   //get name and ID
+  //alert("a");
+  $.ajaxSetup({async: false});
+  $.get(workoutsPage)
+    .done(function(data){
+    //alert(data);
+    localStorage.wks = data;
+  })
+    .fail(function(jqXHR, textStatus, errorThrown){
+    alert("fail " + JSON.stringify(jqXHR));
+  });
+  //alert("b");
+  /*
   var wksObj = {
     "workouts" : [
       { "ID" : 1, "name" : "Chest" },
@@ -49,14 +97,23 @@ function getWorkouts( ){
       { "ID" : 7, "name" : "Biceps" },
       { "ID" : 8, "name" : "Abs" }
     ]
-  }
-  localStorage.wks = JSON.stringify(wksObj);
+  }*/
+  //alert(localStorage.wks);
 }
 
 function getExercices(){
   var wkID = localStorage.selectedWkID;
 
-  //request eercices of workout wkID
+  $.get(workoutsPage, "wkID=" + wkID)
+    .done(function(data){
+    //alert(data);
+    localStorage.exs = data;
+  })
+    .fail(function(jqXHR, textStatus, errorThrown){
+    alert("fail " + JSON.stringify(jqXHR));
+  });
+
+  /*
   var exObj = {
     "exercices" : [
       { "ID" : 1, "name" : "Bench Press", "weight" : "50", "reps" : 2, "rest" : 3},
@@ -65,14 +122,56 @@ function getExercices(){
       { "ID" : 4, "name" : "Converging Press", "weight" : "45", "reps" : 4, "rest" : 7 }
     ]
   }
-  localStorage.exs = JSON.stringify(exObj);
+  localStorage.exs = JSON.stringify(exObj);*/
 }
 
 /*Send to DB*/
-function addNewWorkout(exJSON){
-  alert(exJSON);
-  //send to db
-  location.href = 'workout.html';
+function addNewWorkout(wkJSON){
+
+  //alert("b");
+  var sendData = wkJSON;
+  //alert(sendData);
+
+  $.post( addWkPage, "q=" + sendData )
+    .done(function(data){
+  })
+    .always(function() {
+    location.href = 'main.html';
+  })
+    .fail(function(jqXHR, textStatus, errorThrown){
+    alert("fail " + JSON.stringify(jqXHR));
+  });
+
+}
+
+function registerUser(){
+  if($("#pswReg").val() != $("#pswRegRep").val()){
+    $("#msgErroReg").text("Passowrds don't match");
+    $("#msgErroReg").removeClass("w3-hide");
+    setTimeout(function(){ $("#msgErroReg").addClass("w3-hide"); }, 2000);
+  }
+  else{
+    var sendData = $("#formCadastro").serialize();
+    $.post( registerPage, sendData )
+      .done(function(data){
+      localStorage.userEmail = $("#emaiRegister").val();
+      localStorage.userSenha = $("#senhaRegister").val();
+      location.href = 'main.html';
+    })
+      .fail(function(jqXHR, textStatus, errorThrown) {
+      if(jqXHR.status == 404){
+        $("#msgErroReg").text("Error. Try again later");
+      }
+      else if(jqXHR.status == 500){
+        $("#msgErroReg").text("Server Error. Try later");
+      }
+      else{
+        $("#msgErroReg").text("Unknown error. Try later");
+      }
+      $("#msgErroReg").removeClass("w3-hide");
+      setTimeout(function(){ $("#msgErroReg").addClass("w3-hide"); }, 2000);
+    });
+  }
 }
 
 function editEx(){
@@ -83,8 +182,7 @@ function editEx(){
     "rest" : $("#iexRest").val(),
     "series" : $("#iexSeries").val(),
     "annotations" : $("#iexAnn").val()
-  }
-
+  };
 
   //send request to remove exercice localStorage.editExID of localStorage.selectedWkID
 
@@ -99,6 +197,8 @@ function editEx(){
 }
 
 function addEx(){
+  //alert("oi");
+  //alert( $("#aexWeight").val());
   var ex = {
     "IDWorkout" : localStorage.selectedWkID,
     "name": $("#aexName").val(),
@@ -106,8 +206,20 @@ function addEx(){
     "rest" : $("#aexRest").val(),
     "series" : $("#aexSeries").val(),
     "annotations" : $("#aexAnn").val()
-  }
-  //send a request to add JSON.Stringfy(ex) in localStorage.selectedWkID
+  };
+
+  //alert("b");
+  var sendData = JSON.stringify(ex);
+  //alert(sendData);
+
+  $.post( addExPage, "q=" + sendData )
+    .done(function(data){
+    location.href = 'main.html';
+    echo("success " + data);
+  })
+    .fail(function(jqXHR, textStatus, errorThrown){
+    alert("fail " + JSON.stringify(jqXHR));
+  });
 
   //alert(JSON.stringify(ex));
 
