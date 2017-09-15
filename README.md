@@ -1,4 +1,4 @@
-# App to control your exercices at Gym!
+# App to control your exercises at Gym!
 
 Built with PhoneGap. 
 Release Date: 24/09 

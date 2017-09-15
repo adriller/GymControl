@@ -1,3 +1,3 @@
-/*LocalHost variables*/
+/*fdb16.biz.nf variables*/
 
-var loginPage = "localhost/servGymControl/login.php";
+var loginPage = "fdb16.biz.nf/servGymControl/login.php";

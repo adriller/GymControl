@@ -118,7 +118,7 @@ html, body {
 ::-webkit-scrollbar {
     display: none;
 }
-.exercice {
+.exercise {
   font-size: 3vh;
   width: 100%;
   margin:0;
@@ -185,6 +185,7 @@ html, body {
 
 .lastInfo {
   font-size: 3vh;
+  text-align: center;
 }
 
 
@@ -262,10 +263,11 @@ tr:nth-child(even) {
 }
 
 #tableToday {
-  margin-left: 10%;
+
 }
 
 #btnSaveR {
+  margin-top: 6vh;
   font-size: 4vh;
   text-shadow: 0.2vh 0.2vh 0.2vh black;
 }
@@ -274,4 +276,16 @@ tr:nth-child(even) {
   font-size: 2.3vh;
   font-weight: bold;
   text-shadow: 0.2vh 0.2vh 0.8vh white;
+}
+
+.buttonsDivEdit {
+  margin-top: 7vh;
+}
+
+.singleTable {
+  margin-left: 25%;
+}
+
+.doubleTable {
+  margin-left: 10%;
 }

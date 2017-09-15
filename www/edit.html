@@ -34,10 +34,10 @@
       <div class="w3-container w3-center w3-padding w3-light-gray divMain">
         <h1 id="nameWork" class="w3-allerta w3-text-black bigFont">Workout Name</h1>
 
-        <p>Click on the exercice to edit</p>
+        <p> <!-- Click on the exercise to edit --></p>
 
         <div class="w3-container divSelectWork" id="WorkoutViewerEdit">
-          <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk1" onclick="editForm(wk1)">
+          <!--<a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk1" onclick="editForm(wk1)">
             Brench Press - 15.5kg<br>
             reps: 10 10 10 10</a>
           <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk2" onclick="editForm(wk2)">
@@ -54,17 +54,19 @@
           </a>
           <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk6" onclick="editForm(wk6)">
             Brench Press - 15.5kg<br>
-            reps: 10 10 10 10</a>
+            reps: 10 10 10 10</a>-->
 
 
         </div>
 
-        <div class="w3-container lineBreak">
-          <div class=" w3-button w3-circle w3-border plusBtn w3-right w3-yellow w3-hover-black " onclick="AddExForm()"><i class="fa fa-plus"></i></div>
-        </div>
+        <!--<div class="w3-container lineBreak">
+<div class=" w3-button w3-circle w3-border plusBtn w3-right w3-yellow w3-hover-black " onclick="AddExForm()"><i class="fa fa-plus"></i></div>
+</div>-->
 
-        <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-red w3-hover-black ">Delete &emsp;<i class="fa fa-trash"></i></div>
-        <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-orange w3-hover-black w3-text-white" onclick="location.href = 'workout.html';">Back &emsp;<i class="fa fa-arrow-circle-o-left"></i></div>
+        <div class="buttonsDivEdit">
+          <div id="btnDelEdit" class="w3-container w3-button start w3-border w3-round-large w3-red w3-hover-black " onclick="deleteWk()" >Delete &emsp;<i class="fa fa-trash"></i></div>
+          <div id="btnBackEdit" class="w3-container w3-button start w3-border w3-round-large w3-orange w3-hover-black w3-text-white" onclick="location.href = 'workout.html';">Back &emsp;<i class="fa fa-arrow-circle-o-left"></i></div>
+        </div>
 
         <div id="modalEdit" class="w3-modal">
           <div class="w3-modal-content w3-card-4">
@@ -106,7 +108,7 @@
             <header class="w3-container w3-theme w3-padding">
               <span onclick="document.getElementById('modalAdd').style.display='none'"
                     class="w3-button w3-display-topright fontTitleSmall iconX w3-hover-white">&times;</span>
-              <a id="formAddName" class="fontTitleSmall w3-allerta ">New Exercice</a>
+              <a id="formAddName" class="fontTitleSmall w3-allerta ">New exercise</a>
             </header>
             <form id="formAddEdit" onsubmit="addEx()">
               <div class="w3-container w3-theme-l4 w3-padding">
@@ -153,16 +155,16 @@
       });*/
 
       $( "#WorkoutViewerEdit" ).ready(function() {
-        getExercices();
+        getexercises();
         var exsHTML = "";
         var element =  $("#WorkoutViewerEdit");
         var exs = JSON.parse(localStorage.exs);
-        for(i in exs.exercices){
+        for(i in exs.exercises){
           exsHTML += ' <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="'+
-            exs.exercices[i].ID + '" onclick="editForm(\''+
-            exs.exercices[i].ID + '\', \''+  exs.exercices[i].name + '\')">'+
-            exs.exercices[i].name + ' - ' + exs.exercices[i].weight + 'kg<br>' +
-            'rest: ' + exs.exercices[i].rest + '</a>';
+            exs.exercises[i].ID + '" onclick="editForm(\''+
+            exs.exercises[i].ID + '\', \''+  exs.exercises[i].name + '\')">'+
+            exs.exercises[i].name + ' - ' + exs.exercises[i].weight + 'kg<br>' +
+            'rest: ' + exs.exercises[i].rest + '</a>';
         }
         element.html(exsHTML);
       });
@@ -174,11 +176,11 @@
       });
 
       function editForm(id, name){
-        document.getElementById('modalEdit').style.display='block';
+        /*document.getElementById('modalEdit').style.display='block';
         localStorage.editExID = id;
         localStorage.editExName = name;
         //alert(name);
-        $("#formEditName").text(name);
+        $("#formEditName").text(name);*/
       }
 
       function AddExForm(){

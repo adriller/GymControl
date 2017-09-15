@@ -2,9 +2,13 @@ var loginPage = "http://localhost/servGymControl/login.php";
 //var loginPage = "http://gymcontrol.co.nf/login.php";
 var registerPage = "http://localhost/servGymControl/register.php";
 var workoutsPage = "http://localhost/servGymControl/workouts.php";
-var exercicesPage = "http://localhost/servGymControl/exercices.php";
-var addExPage = "http://localhost/servGymControl/addExercice.php";
+var exercisesPage = "http://localhost/servGymControl/exercises.php";
+var addExPage = "http://localhost/servGymControl/addexercise.php";
 var addWkPage = "http://localhost/servGymControl/addWorkout.php";
+var deleteWkPage = "http://localhost/servGymControl/deleteWorkout.php";
+var saveResultsPage = "http://localhost/servGymControl/saveResults.php";
+var resultsPage = "http://localhost/servGymControl/getLastResult.php";
+
 
 function select(id, nameWk){
   $('#wk' + id).addClass("w3-black");
@@ -55,7 +59,7 @@ function checkLogin(){
   var sendData = $("#formLogin").serialize();
   $.get( loginPage, sendData )
     .done(function(data){
-    alert(data);
+    //alert(data);
     localStorage.userEmail = $("#emailLogin").val();
     localStorage.userSenha = $("#senhaLogin").val();
     location.href = 'main.html';
@@ -82,7 +86,8 @@ function getWorkouts( ){
     localStorage.wks = data;
   })
     .fail(function(jqXHR, textStatus, errorThrown){
-    alert("fail " + JSON.stringify(jqXHR));
+    //alert("fail " + JSON.stringify(jqXHR));));
+    localStorage.removeItem("wks");
   });
   //alert("b");
   /*
@@ -101,21 +106,24 @@ function getWorkouts( ){
   //alert(localStorage.wks);
 }
 
-function getExercices(){
+function getexercises(){
   var wkID = localStorage.selectedWkID;
 
-  $.get(workoutsPage, "wkID=" + wkID)
+  $.ajaxSetup({async: false});
+  $.get(exercisesPage, "wkID=" + wkID)
     .done(function(data){
     //alert(data);
     localStorage.exs = data;
   })
     .fail(function(jqXHR, textStatus, errorThrown){
-    alert("fail " + JSON.stringify(jqXHR));
+    //alert("fail " + JSON.stringify(jqXHR));
+    localStorage.removeItem("exs");
+    //localStorage.exs = JSON.stringify({"workouts" : []});
   });
 
   /*
   var exObj = {
-    "exercices" : [
+    "exercises" : [
       { "ID" : 1, "name" : "Bench Press", "weight" : "50", "reps" : 2, "rest" : 3},
       { "ID" : 2, "name" : "Bench Press Declined", "weight" : "45", "reps" : 3, "rest" : 3 },
       { "ID" : 3, "name" : "Contractor", "weight" : "27", "reps" : 2, "rest" : 5 },
@@ -125,12 +133,39 @@ function getExercices(){
   localStorage.exs = JSON.stringify(exObj);*/
 }
 
+function getLastResults(){
+
+  var JSONexs = JSON.parse(localStorage.exs);
+  var exercs = JSONexs.exercises;
+  var len = 0;
+ //alert(localStorage.exs);
+  for(var i = 0 ; i < exercs.length ; i++){
+    len = len + parseInt(exercs[i].reps);
+    //alert(exercs.reps);
+  }
+  var sendData = "wkID=" + localStorage.selectedWkID + "&len=" + len;
+  //alert(sendData);
+
+  $.ajaxSetup({async: false});
+  $.get(resultsPage, sendData)
+    .done(function(data){
+    //alert(data);
+    localStorage.lastResults = data;
+  })
+    .fail(function(jqXHR, textStatus, errorThrown){
+    //alert("fail " + JSON.stringify(jqXHR));
+    localStorage.removeItem("lastResults");
+    //localStorage.exs = JSON.stringify({"workouts" : []});
+  });
+ //alert("results= " + localStorage.lastResults);
+}
+
 /*Send to DB*/
 function addNewWorkout(wkJSON){
 
   //alert("b");
   var sendData = wkJSON;
-  //alert(sendData);
+ //alert(sendData);
 
   $.post( addWkPage, "q=" + sendData )
     .done(function(data){
@@ -139,7 +174,7 @@ function addNewWorkout(wkJSON){
     location.href = 'main.html';
   })
     .fail(function(jqXHR, textStatus, errorThrown){
-    alert("fail " + JSON.stringify(jqXHR));
+   //alert("fail " + JSON.stringify(jqXHR));
   });
 
 }
@@ -184,7 +219,7 @@ function editEx(){
     "annotations" : $("#iexAnn").val()
   };
 
-  //send request to remove exercice localStorage.editExID of localStorage.selectedWkID
+  //send request to remove exercise localStorage.editExID of localStorage.selectedWkID
 
   //send a request to add JSON.Stringfy(ex) in localStorage.selectedWkID
 
@@ -215,10 +250,9 @@ function addEx(){
   $.post( addExPage, "q=" + sendData )
     .done(function(data){
     location.href = 'main.html';
-    echo("success " + data);
   })
     .fail(function(jqXHR, textStatus, errorThrown){
-    alert("fail " + JSON.stringify(jqXHR));
+   //alert("fail " + JSON.stringify(jqXHR));
   });
 
   //alert(JSON.stringify(ex));
@@ -229,12 +263,31 @@ function addEx(){
   document.getElementById('modalAdd').style.display='none';
 }
 
+function deleteWk(){
+  $.post( deleteWkPage, "wkID=" + localStorage.selectedWkID )
+    .done(function(data){
+    //alert(data);
+    location.href = 'main.html';
+  })
+    .fail(function(jqXHR, textStatus, errorThrown){
+   //alert("fail " + JSON.stringify(jqXHR));
+  });
+}
+
 function deleteEx(){
-  //send a request to remove exercice localStorage.editExID of localStorage.selectedWkID
+  //send a request to remove exercise localStorage.editExID of localStorage.selectedWkID
   document.getElementById('modalEdit').style.display='none';
   location.href = 'edit.html';
 }
 
 function finishWorkout(){
-  alert(localStorage.finalWkResults);
+  var sendData = localStorage.finalWkResults;
+  $.post( saveResultsPage, "q=" + sendData )
+    .done(function(data){
+   //alert(data);
+    location.href = 'main.html';
+  })
+    .fail(function(jqXHR, textStatus, errorThrown){
+   //alert("fail " + JSON.stringify(jqXHR));
+  });
 }

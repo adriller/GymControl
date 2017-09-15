@@ -16,7 +16,7 @@
     <div id="startScreen" class="w3-container">
 
       <div class="w3-container w3-center nomeExDiv">
-        <h1 id="exName" class="w3-allerta w3-text-white nomeEx">Exercice Name</h1>
+        <h1 id="exName" class="w3-allerta w3-text-white nomeEx">exercise Name</h1>
         <span id="congrat" class="w3-allerta letterSerie w3-text-orange">Serie: <span id="numS">2</span></span>
       </div>
 
@@ -24,39 +24,39 @@
         <span id="count" class="countdown w3-allerta w3-text-white" >GO</span>
       </div>
 
-      <div class="w3-container w3-allerta lastInfo w3-text-light-gray">
-        <table>
-          <tr class="w3-black">
-            <th colspan="3">28/07</th>
-          </tr>
-          <tr class="w3-orange">
-            <td>Serie</td>
-            <td>Weight</td>
-            <td>Reps</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>15kg</td>
-            <td>10</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>15kg</td>
-            <td>10</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>15kg</td>
-            <td>10</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>15kg</td>
-            <td>10</td>
-          </tr>
+      <div class="w3-container w3-center w3-allerta lastInfo w3-text-light-gray">
+        <table id="tableBf">
+          <!--<tr class="w3-black">
+<th colspan="3">28/07</th>
+</tr>
+<tr class="w3-orange">
+<td>Serie</td>
+<td>Weight</td>
+<td>Reps</td>
+</tr>
+<tr>
+<td>1</td>
+<td>15kg</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>15kg</td>
+<td>10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>15kg</td>
+<td>10</td>
+</tr>
+<tr>
+<td>4</td>
+<td>15kg</td>
+<td>10</td>
+</tr>-->
         </table>
 
-        <table id="tableToday">
+        <table id="tableToday" class="">
 
 
         </table>
@@ -117,11 +117,13 @@
       var timerID;
       var serieNumber = 0;
       var workoutNumber = 0;
-      var timeLeft = ex.exercices[0].rest;
-      var maxExerc = ex.exercices.length;
-      var exName = ex.exercices[0].name;
+      var timeLeft = ex.exercises[0].rest;
+      var maxExerc = ex.exercises.length;
+      var exName = ex.exercises[0].name;
       var exAntName = exName;
-      var maxSeries = ex.exercices[0].reps;
+      var exID = ex.exercises[0].ID;
+      var exAntID = exID;
+      var maxSeries = ex.exercises[0].reps;
       var serAnt = 0;
       var exResults = {
         "series" : []
@@ -134,6 +136,10 @@
 
       $( "#tableToday" ).ready(function() {
         createTableToday();
+      });
+
+      $( "#tableBf" ).ready(function() {
+        createTableBefore();
       });
 
       function createTableToday(){
@@ -160,36 +166,83 @@
         $("#Rtoday" + serAnt).text($(valueRep).val());
       }
 
+      function createTableBefore(){
+        if(localStorage.lastResults === undefined){
+          $("#tableToday").addClass("singleTable");
+        }
+        else{
+          $("#tableToday").addClass("doubleTable");
+          var series = JSON.parse(localStorage.lastResults).series;
+          //alert(JSON.stringify(series));
+
+          var counter = 0;
+
+          while(series[counter].exID != exID && counter < 1000){
+            counter++;
+          }
+
+          //alert("position = " + counter);
+
+          var lastData = series;
+
+          var append = '	<tr class="w3-black">'
+          +'          <th colspan="3">'+ lastData[0].dateDone +'</th>'
+          +'        </tr>'
+          +'        <tr class="w3-orange">'
+          +'          <td>Serie</td>  '
+          +'          <td>Weight</td> '
+          +'          <td>Reps</td>'
+          +'        </tr>';
+
+          var max = parseInt(maxSeries) + parseInt(counter);
+          //alert("maxseries= " + maxSeries + "counter= " + counter);
+          for(var i = counter, j = 0 ; i < max ; i++, j++){
+            append += '<tr>';
+            append += '<td>'+ (j+1) +'</td>';
+            append += '<td id="Wbf' + j +'">' + series[i].weight +' </td>';
+            append += '<td id="Rbf' + j +'">' + series[i].reps +' </td>';
+            append += '</tr>';
+          }
+          $("#tableBf").html(append);
+        }
+      }
+
       function doneSer(){
         document.getElementById('modalDone').style.display='block';
+        $("#btnDone").addClass("w3-hide");
 
         if(serieNumber == maxSeries - 1){
           if(workoutNumber == maxExerc -1){
-            $("#exName").text("You did");
-            elem.innerHTML = 'IT';
+            $("#exName").text("Finished");
+            elem.innerHTML = ';D';
             $("#btnDone").addClass("w3-hide");
             $("#btnSaveR").removeClass("w3-hide");
             $("#congrat").text("Congratulations");
             $("#numS").text(" ");
             serAnt = serieNumber;
-            exAntName = ex.exercices[workoutNumber].name;
+            exAntName = ex.exercises[workoutNumber].name;
+            exAntID =  ex.exercises[workoutNumber].ID;
           }else{
             exAntName = exName;
+            exAntID = exID;
             workoutNumber++;
             serAnt = serieNumber;
             serieNumber = 0;
             //alert("a");
-            maxSeries = ex.exercices[workoutNumber].reps;
+            maxSeries = ex.exercises[workoutNumber].reps;
             //alert("att name");
-            exName = ex.exercices[workoutNumber].name;
+            exName = ex.exercises[workoutNumber].name;
+            exID =  ex.exercises[workoutNumber].ID;
             timerID = setInterval(countdown, 1000);
-            $("#exName").text(ex.exercices[workoutNumber].name);
+            $("#exName").text(ex.exercises[workoutNumber].name);
             $("#numS").text(serieNumber+1);
-            createTableToday()
+            createTableToday();
+            createTableBefore();
           }
         }else{
           //alert("att serie");
           exAntName = exName;
+          exAntID = exID;
           serieNumber++;
           serAnt = serieNumber - 1;
           $("#numS").text(serieNumber+1);
@@ -200,8 +253,9 @@
       function countdown() {
         if (timeLeft == 0) {
           clearTimeout(timerID);
-          timeLeft = ex.exercices[workoutNumber].rest;
+          timeLeft = ex.exercises[workoutNumber].rest;
           elem.innerHTML = 'GO';
+          $("#btnDone").removeClass("w3-hide");
         } else {
           elem.innerHTML = timeLeft;
           timeLeft--;
@@ -210,10 +264,11 @@
 
       function saveResults(){
         var serie = {
-          "exercice" : exAntName,
+          "exercise" : exAntID,
           "serieNumber" : serAnt,
           "reps" : $(valueRep).val(),
-          "weight": $(valueWeight).val()
+          "weight": $(valueWeight).val(),
+          "wkID" : localStorage.selectedWkID
         }
         //alert("pushing");
         exResults.series.push(serie);
@@ -228,10 +283,12 @@
       }
 
       function finish(){
-        alert("congrats");
+        //alert("congrats");
         localStorage.finalWkResults = JSON.stringify(exResults);
         finishWorkout();
       }
+
+
 
     </script>
 

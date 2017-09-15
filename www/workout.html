@@ -35,33 +35,31 @@
         <h1 id="nameWork" class="w3-allerta w3-text-black bigFont">Workout Name</h1>
 
         <div class="w3-container  divSelectWork" id="workoutViewer">
-          <div class="w3-container w3-red w3-border exercice">
-            Brench Press - 15.5kg<br>
-            reps: 10 10 10 10
-          </div>
-          <div class="w3-container w3-blue w3-border exercice">
-            Brench Press - 15.5kg<br>
-            reps: 10 10 10 10
-          </div>
-          <div class="w3-container  w3-border exercice">
-            Brench Press - 15.5kg<br>
-            reps: 10 10 10 10
-          </div>
-          <div class="w3-container w3-border exercice">
-            Brench Press - 15.5kg<br>
-            reps: 10 10 10 10
-          </div>
-          <div class="w3-container w3-border exercice">
-            Brench Press - 15.5kg<br>
-            reps: 10 10 10 10
-          </div>
-
-
+          <!--<div class="w3-container w3-red w3-border exercise">
+Brench Press - 15.5kg<br>
+reps: 10 10 10 10
+</div>
+<div class="w3-container w3-blue w3-border exercise">
+Brench Press - 15.5kg<br>
+reps: 10 10 10 10
+</div>
+<div class="w3-container  w3-border exercise">
+Brench Press - 15.5kg<br>
+reps: 10 10 10 10
+</div>
+<div class="w3-container w3-border exercise">
+Brench Press - 15.5kg<br>
+reps: 10 10 10 10
+</div>
+<div class="w3-container w3-border exercise">
+Brench Press - 15.5kg<br>
+reps: 10 10 10 10
+</div>-->
         </div>
 
         <div class="w3-container w3-button addNew w3-border w3-round-large w3-yellow w3-padding w3-hover-black" onclick="location.href = 'edit.html';">Edit&emsp;<i class="fa fa-pencil"></i></div>
         <br>
-        <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-green w3-hover-black " onclick="location.href = 'start.html';">START&emsp;<i class="fa fa-play"></i></div>
+        <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-green w3-hover-black " onclick="startPressed()">START&emsp;<i class="fa fa-play"></i></div>
 
       </div>
     </div>
@@ -77,14 +75,14 @@
       }
 
       $( "#workoutViewer" ).ready(function() {
-        getExercices();
+        getexercises();
         var exsHTML = "";
         var element =  $("#workoutViewer");
         var exs = JSON.parse(localStorage.exs);
-        for(i in exs.exercices){
-          exsHTML += '<div class="w3-container w3-orange w3-border exercice">'+
-            exs.exercices[i].name + ' - ' + exs.exercices[i].weight + 'kg<br>'+
-            'Rest: ' + exs.exercices[i].rest + 's' +
+        for(i in exs.exercises){
+          exsHTML += '<div class="w3-container w3-orange w3-border exercise">'+
+            exs.exercises[i].name + ' - ' + exs.exercises[i].weight + 'kg<br>'+
+            'Rest: ' + exs.exercises[i].rest + 's' +
             '</div>';
         }
         element.html(exsHTML);
@@ -96,6 +94,10 @@
         $("#nameWork").text(name);
       });
 
+      function startPressed(){
+        getLastResults();
+        location.href = 'start.html';
+      }
     </script>
   </body>
 </html>
