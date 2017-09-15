@@ -76,6 +76,7 @@ reps: 10 10 10 10
 
       $( "#workoutViewer" ).ready(function() {
         getexercises();
+        localStorage.removeItem("lastResults");
         var exsHTML = "";
         var element =  $("#workoutViewer");
         var exs = JSON.parse(localStorage.exs);

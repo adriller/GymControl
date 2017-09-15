@@ -134,7 +134,7 @@ function getexercises(){
 }
 
 function getLastResults(){
-
+  localStorage.removeItem("lastResults");
   var JSONexs = JSON.parse(localStorage.exs);
   var exercs = JSONexs.exercises;
   var len = 0;

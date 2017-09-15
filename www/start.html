@@ -168,10 +168,14 @@
 
       function createTableBefore(){
         if(localStorage.lastResults === undefined){
+          $("#tableToday").removeClass("doubleTable");
           $("#tableToday").addClass("singleTable");
+          //alert("single table");
         }
         else{
+          $("#tableToday").removeClass("singleTable");
           $("#tableToday").addClass("doubleTable");
+          alert(localStorage.lastResults);
           var series = JSON.parse(localStorage.lastResults).series;
           //alert(JSON.stringify(series));
 
