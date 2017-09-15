@@ -1,13 +1,13 @@
-var loginPage = "http://localhost/servGymControl/login.php";
-//var loginPage = "http://gymcontrol.co.nf/login.php";
-var registerPage = "http://localhost/servGymControl/register.php";
-var workoutsPage = "http://localhost/servGymControl/workouts.php";
-var exercisesPage = "http://localhost/servGymControl/exercises.php";
-var addExPage = "http://localhost/servGymControl/addexercise.php";
-var addWkPage = "http://localhost/servGymControl/addWorkout.php";
-var deleteWkPage = "http://localhost/servGymControl/deleteWorkout.php";
-var saveResultsPage = "http://localhost/servGymControl/saveResults.php";
-var resultsPage = "http://localhost/servGymControl/getLastResult.php";
+//var loginPage = "http://localhost/servGymControl/login.php";
+var loginPage = "http://gymcontrol.co.nf/login.php";
+var registerPage = "http://gymcontrol.co.nf/register.php";
+var workoutsPage = "http://gymcontrol.co.nf/workouts.php";
+var exercisesPage = "http://gymcontrol.co.nf/exercises.php";
+var addExPage = "http://gymcontrol.co.nf/addexercise.php";
+var addWkPage = "http://gymcontrol.co.nf/addWorkout.php";
+var deleteWkPage = "http://gymcontrol.co.nf/deleteWorkout.php";
+var saveResultsPage = "http://gymcontrol.co.nf/saveResults.php";
+var resultsPage = "http://gymcontrol.co.nf/getLastResult.php";
 
 
 function select(id, nameWk){
@@ -186,22 +186,27 @@ function registerUser(){
     setTimeout(function(){ $("#msgErroReg").addClass("w3-hide"); }, 2000);
   }
   else{
-    var sendData = $("#formCadastro").serialize();
+    var sendData = $("#formRegister").serialize();
+    //alert(sendData);
     $.post( registerPage, sendData )
       .done(function(data){
       localStorage.userEmail = $("#emaiRegister").val();
       localStorage.userSenha = $("#senhaRegister").val();
+      //alert("success " + data);
       location.href = 'main.html';
     })
       .fail(function(jqXHR, textStatus, errorThrown) {
       if(jqXHR.status == 404){
         $("#msgErroReg").text("Error. Try again later");
+        //alert(JSON.stringify(jqXHR));
       }
       else if(jqXHR.status == 500){
         $("#msgErroReg").text("Server Error. Try later");
+        //alert(JSON.stringify(jqXHR));
       }
       else{
         $("#msgErroReg").text("Unknown error. Try later");
+        //alert(JSON.stringify(jqXHR));
       }
       $("#msgErroReg").removeClass("w3-hide");
       setTimeout(function(){ $("#msgErroReg").addClass("w3-hide"); }, 2000);
