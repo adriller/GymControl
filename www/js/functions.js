@@ -110,7 +110,7 @@ function getexercises(){
   var wkID = localStorage.selectedWkID;
 
   $.ajaxSetup({async: false});
-  $.get(exercisesPage, "wkID=" + wkID+ "&SSemail=" + localStorage.userEmail)
+  $.get(exercisesPage, "wkID=" + wkID+ "&email=" + localStorage.userEmail)
     .done(function(data){
     //alert(data);
     localStorage.exs = data;
