@@ -80,7 +80,9 @@ function getWorkouts( ){
   //get name and ID
   //alert("a");
   $.ajaxSetup({async: false});
-  $.get(workoutsPage)
+  var sendData = "email=" + localStorage.userEmail;
+  //alert(sendData);
+  $.get(workoutsPage,sendData)
     .done(function(data){
     //alert(data);
     localStorage.wks = data;
@@ -110,7 +112,7 @@ function getexercises(){
   var wkID = localStorage.selectedWkID;
 
   $.ajaxSetup({async: false});
-  $.get(exercisesPage, "wkID=" + wkID+ "&email=" + localStorage.userEmail)
+  $.get(exercisesPage, "wkID=" + wkID)
     .done(function(data){
     //alert(data);
     localStorage.exs = data;
