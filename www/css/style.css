@@ -296,8 +296,38 @@ tr:nth-child(even) {
 
 .loadIcon {
   width: 100%;
+  opacity: 1;
 }
 
 .mySpin {
   margin-top: 14%;
+}
+
+
+
+.modalContentLoading{
+
+}
+
+.loadIcon{
+  opacity: 1.5 !important;
+}
+
+.containerLoading {
+  margin-top: 16%;
+}
+
+#load2 {
+}
+
+.contaienerLoading {
+  margin-top: 16%;
+}
+
+#load {
+
+}
+
+.fontAlert {
+  font-size: 5vh ;
 }

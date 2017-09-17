@@ -60,9 +60,17 @@ reps: 10 10 10 10
 
         <div class="w3-container w3-button addNew w3-border w3-round-large w3-yellow w3-padding w3-hover-black" onclick="location.href = 'edit.html';">Edit&emsp;<i class="fa fa-pencil"></i></div>
         <br>
-        <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-green w3-hover-black " onclick="startPressed()">START&emsp;<i class="fa fa-play"></i></div>
+        <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-green w3-hover-black " onclick="document.getElementById('loadingModal').style.display='block';startPressed()">START&emsp;<i class="fa fa-play"></i></div>
 
       </div>
+      <div id="loadingModal" class="w3-modal w3-white">
+          <div class="w3-container w3-padding contaienerLoading">
+
+            <div id="load" class=" loadIcon w3-center w3-allerta" ><span class="w3-text-orange fontAlert">Loading...</span> <br><i class="fa fa-spinner fa-spin mySpin" style="font-size:10vh"></i><br><br>Getting your previous <br> workout data...</div>
+
+          </div>
+      </div>
+
     </div>
 
     <script>
@@ -76,7 +84,6 @@ reps: 10 10 10 10
       }
 
       $( "#workoutViewer" ).ready(function() {
-        $( "#load" ).removeClass("w3-hide");
         getexercises();
         localStorage.removeItem("lastResults");
         var exsHTML = "";
@@ -101,6 +108,7 @@ reps: 10 10 10 10
 
       function startPressed(){
         getLastResults();
+        //document.getElementById('loadingModal').style.display='none';
         location.href = 'start.html';
       }
     </script>
