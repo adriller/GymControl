@@ -289,3 +289,15 @@ tr:nth-child(even) {
 .doubleTable {
   margin-left: 10%;
 }
+
+.loading {
+
+}
+
+.loadIcon {
+  width: 100%;
+}
+
+.mySpin {
+  margin-top: 14%;
+}
