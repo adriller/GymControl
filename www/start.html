@@ -310,7 +310,7 @@
         timeLeft = 0;
       }
 
-      $('#btnSkip').mousedown(function(e) {
+      $('#btnSkip').bind( "mousedown touchstart", function(e){
         //e.preventDefault();
         var elem = document.getElementById("barSkip");
         width = 1;
@@ -325,7 +325,7 @@
         }
       });
 
-      $('#btnSkip').mouseup(function(e) {
+      $('#btnSkip').bind( "mouseup touchend", function(e){
         e.preventDefault();
         clearInterval(intervalBar);
         if(width == 100){
