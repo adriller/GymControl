@@ -1,4 +1,5 @@
-//var loginPage = "http://localhost/servGymControl/login.php";
+//online host
+
 var loginPage = "http://gymcontrol.co.nf/login.php";
 var registerPage = "http://gymcontrol.co.nf/register.php";
 var workoutsPage = "http://gymcontrol.co.nf/workouts.php";
@@ -10,6 +11,20 @@ var saveResultsPage = "http://gymcontrol.co.nf/saveResults.php";
 var resultsPage = "http://gymcontrol.co.nf/getLastResult.php";
 
 
+//localhost
+/*
+var loginPage = "http://localhost/servGymControl/login.php";
+var registerPage = "http://localhost/servGymControl/register.php";
+var workoutsPage = "http://localhost/servGymControl/workouts.php";
+var exercisesPage = "http://localhost/servGymControl/exercises.php";
+var addExPage = "http://localhost/servGymControl/addexercise.php";
+var addWkPage = "http://localhost/servGymControl/addWorkout.php";
+var deleteWkPage = "http://localhost/servGymControl/deleteWorkout.php";
+var saveResultsPage = "http://localhost/servGymControl/saveResults.php";
+var resultsPage = "http://localhost/servGymControl/getLastResult.php";
+*/
+
+//select workout
 function select(id, nameWk){
   $('#wk' + id).addClass("w3-black");
 
@@ -22,16 +37,65 @@ function select(id, nameWk){
   $('#btnStart').removeAttr("disabled");
 
   localStorage.selectedWkID = id;
-  localStorage.selectedWkName =  nameWk;
+  localStorage.selectedWkName = nameWk;
 }
 
+//select exercise
+function selectEx(id, nameEx){
+  //alert(id);
+  $('#ex' + id).removeClass("w3-theme-l4");
+  $('#ex' + id).addClass("w3-black");
+
+  var prevEx = localStorage.selectedExID;
+  //alert(prevEx);
+  if(prevEx != undefined && prevEx != id){
+    $('#ex' + prevEx).removeClass("w3-black");
+    $('#ex' + prevEx).addClass("w3-theme-l4");
+  }
+
+  $("#btnStart").removeClass("w3-disabled");
+  $('#btnStart').removeAttr("disabled");
+
+  localStorage.selectedExID = id;
+  localStorage.selectedExName =  nameEx;
+  setCompleteds();
+}
+
+function setCompleteds(){
+  //alert(localStorage.completedEx);
+  if(localStorage.completedEx == undefined)
+    return;
+
+  var completeds = JSON.parse(localStorage.completedEx);
+
+  if(completeds == undefined)
+    return;
+  for(var i = 0 ; i < completeds.length ; i++){
+    $("#ex" + completeds[i]).removeClass("w3-theme-l4");
+    $("#ex" + completeds[i]).addClass("w3-green");
+  }
+  var exercises = JSON.parse(localStorage.exs);
+  //alert("complets= " + completeds.length + " total= " + exercises.exercises.length)
+  if(completeds.length == exercises.exercises.length){
+    localStorage.completedWorkout = "true";
+  }
+  else{
+    localStorage.completedWorkout = "false";
+  }
+  if(completeds.length > 0){
+    localStorage.wkInProgress = localStorage.selectedWkName;
+  }
+}
+
+//logout
 function logOut(){
   localStorage.removeItem("userEmail");
   localStorage.removeItem("userSenha");
   location.href = 'index.html';
 }
 
-/*Controls quantity*/
+
+/*Functions to control quantity*/
 function plusReps(){
   //alert($("#valueRep").val());
   $("#valueRep").val(parseInt($("#valueRep").val()) + 1);
@@ -52,9 +116,17 @@ function minusWeights(){
   $("#valueWeight").val(parseFloat($("#valueWeight").val()) - 0.5);
 }
 
-
+function resetVariables(){
+  localStorage.removeItem("selectedExID");
+  localStorage.removeItem("finalWkResults");
+  localStorage.removeItem("completedEx");
+  localStorage.removeItem("lastResults");
+  localStorage.removeItem("completedWorkout");
+  localStorage.removeItem("wkInProgress");
+}
 /*Getters from DB*/
 
+//check valid user
 function checkLogin(){
   var sendData = $("#formLogin").serialize();
   $.get( loginPage, sendData )
@@ -76,6 +148,7 @@ function checkLogin(){
   });
 }
 
+//get all workouts from user
 function getWorkouts( ){
   //get name and ID
   //alert("a");
@@ -108,6 +181,7 @@ function getWorkouts( ){
   //alert(localStorage.wks);
 }
 
+//get all exercises from workout
 function getexercises(){
   var wkID = localStorage.selectedWkID;
 
@@ -135,12 +209,13 @@ function getexercises(){
   localStorage.exs = JSON.stringify(exObj);*/
 }
 
+//get last scores in some workout
 function getLastResults(){
   localStorage.removeItem("lastResults");
   var JSONexs = JSON.parse(localStorage.exs);
   var exercs = JSONexs.exercises;
   var len = 0;
- //alert(localStorage.exs);
+  //alert(localStorage.exs);
   for(var i = 0 ; i < exercs.length ; i++){
     len = len + parseInt(exercs[i].reps);
     //alert(exercs.reps);
@@ -159,28 +234,27 @@ function getLastResults(){
     localStorage.removeItem("lastResults");
     //localStorage.exs = JSON.stringify({"workouts" : []});
   });
- //alert("results= " + localStorage.lastResults);
+  //alert("results= " + localStorage.lastResults);
 }
 
 /*Send to DB*/
+//add new workout
 function addNewWorkout(wkJSON){
-
-  //alert("b");
   var sendData = wkJSON;
- //alert(sendData);
-
-  $.post( addWkPage, "q=" + sendData )
+  //alert(sendData);
+  $.post( addWkPage, "q=" + sendData  + "&userEmail=" + localStorage.userEmail )
     .done(function(data){
   })
     .always(function() {
     location.href = 'main.html';
   })
     .fail(function(jqXHR, textStatus, errorThrown){
-   //alert("fail " + JSON.stringify(jqXHR));
+    //alert("fail " + JSON.stringify(jqXHR));
   });
 
 }
 
+//register new user
 function registerUser(){
   if($("#pswReg").val() != $("#pswRegRep").val()){
     $("#msgErroReg").text("Passowrds don't match");
@@ -216,6 +290,7 @@ function registerUser(){
   }
 }
 
+//edit workout -- coming soon
 function editEx(){
   var ex = {
     "IDWorkout" : localStorage.selectedWkID,
@@ -238,6 +313,7 @@ function editEx(){
 
 }
 
+//add exercise to workout
 function addEx(){
   //alert("oi");
   //alert( $("#aexWeight").val());
@@ -250,19 +326,15 @@ function addEx(){
     "annotations" : $("#aexAnn").val()
   };
 
-  //alert("b");
   var sendData = JSON.stringify(ex);
-  //alert(sendData);
 
   $.post( addExPage, "q=" + sendData )
     .done(function(data){
     location.href = 'main.html';
   })
     .fail(function(jqXHR, textStatus, errorThrown){
-   //alert("fail " + JSON.stringify(jqXHR));
+    //alert("fail " + JSON.stringify(jqXHR));
   });
-
-  //alert(JSON.stringify(ex));
 
   $("#aexName").val(" ");
   $("#aexAnn").val(" ");
@@ -270,6 +342,7 @@ function addEx(){
   document.getElementById('modalAdd').style.display='none';
 }
 
+//delete workout
 function deleteWk(){
   $.post( deleteWkPage, "wkID=" + localStorage.selectedWkID )
     .done(function(data){
@@ -277,24 +350,28 @@ function deleteWk(){
     location.href = 'main.html';
   })
     .fail(function(jqXHR, textStatus, errorThrown){
-   //alert("fail " + JSON.stringify(jqXHR));
+    //alert("fail " + JSON.stringify(jqXHR));
   });
 }
 
+//delete exercise -- coming soon
 function deleteEx(){
   //send a request to remove exercise localStorage.editExID of localStorage.selectedWkID
   document.getElementById('modalEdit').style.display='none';
   location.href = 'edit.html';
 }
 
+//save workout finished
 function finishWorkout(){
   var sendData = localStorage.finalWkResults;
+  //alert(sendData);
   $.post( saveResultsPage, "q=" + sendData )
     .done(function(data){
-   //alert(data);
+    //alert(data);
     location.href = 'main.html';
   })
     .fail(function(jqXHR, textStatus, errorThrown){
-   //alert("fail " + JSON.stringify(jqXHR));
+    //alert("fail " + JSON.stringify(jqXHR));
   });
+  resetVariables();
 }

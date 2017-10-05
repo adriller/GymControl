@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="js/functions.js"></script>
+    <!--theme-->
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-amber.css">
     <!--fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
     <title>Login</title>
@@ -26,44 +28,16 @@
 
       <div class="w3-container w3-center w3-allerta lastInfo w3-text-light-gray">
         <table id="tableBf">
-          <!--<tr class="w3-black">
-<th colspan="3">28/07</th>
-</tr>
-<tr class="w3-orange">
-<td>Serie</td>
-<td>Weight</td>
-<td>Reps</td>
-</tr>
-<tr>
-<td>1</td>
-<td>15kg</td>
-<td>10</td>
-</tr>
-<tr>
-<td>2</td>
-<td>15kg</td>
-<td>10</td>
-</tr>
-<tr>
-<td>3</td>
-<td>15kg</td>
-<td>10</td>
-</tr>
-<tr>
-<td>4</td>
-<td>15kg</td>
-<td>10</td>
-</tr>-->
         </table>
 
         <table id="tableToday" class="">
-
-
         </table>
       </div>
 
       <div class="w3-container  w3-center w3-margin">
-        <button id="btnDone" class="w3-button w3-orange w3-round-large textFontSize w3-allerta" onclick="doneSer()">Done !</button>
+        <button id="btnDone" class="w3-button w3-theme-l2 w3-round-large textFontSize w3-allerta" onclick="doneSer()">Done !</button>
+
+        <button id="btnSkip" class="w3-hide w3-button w3-theme-l5 w3-round-large textFontSize w3-allerta" onclick=""><span id="spanskip">Skip</span><div id="barSkip" class="w3-theme-l2"></div></button>
 
         <button id="btnSaveR" class="w3-hide w3-button w3-green w3-round-large  w3-allerta" onclick="finish()">Finish</button>
       </div>
@@ -72,8 +46,6 @@
       <div id="modalDone" class="w3-modal">
         <div class="w3-modal-content w3-card-4">
           <header class="w3-container w3-center w3-black w3-padding">
-            <span onclick="document.getElementById('modalDone').style.display='none'"
-                  class="w3-button w3-display-topright fontTitleSmall iconX w3-hover-white">&times;</span>
             <a class="fontTitleSmall w3-allerta ">Informations</a>
           </header>
           <div class="w3-container w3-padding w3-center ">
@@ -90,7 +62,7 @@
             </div>
 
 
-            <br><label class="w3-text-black labelEdit">How much weight (if changed)</label><br>
+            <br><label class="w3-text-black labelEdit">How much weight?</label><br>
             <div class="w3-container w3-round-large w3-orange chooseNumberDiv">
               <div id="minusWeight" class="w3-container signSize " onclick="minusWeights()">&ndash;
               </div>
@@ -112,44 +84,60 @@
     <script>
 
       var ex = JSON.parse(localStorage.exs);
+      //alert(localStorage.exs);
       var elem = document.getElementById('count');
       var numS = document.getElementById('numS');
       var timerID;
       var serieNumber = 0;
-      var workoutNumber = 0;
-      var timeLeft = ex.exercises[0].rest;
-      var maxExerc = ex.exercises.length;
-      var exName = ex.exercises[0].name;
-      var exAntName = exName;
-      var exID = ex.exercises[0].ID;
-      var exAntID = exID;
-      var maxSeries = ex.exercises[0].reps;
-      var serAnt = 0;
-      var exResults = {
-        "series" : []
-      };
+      //var workoutNumber = 0;
+      var timeLeft = 2;
+      //var maxExerc = ex.exercises.length;
+      var exName = localStorage.selectedExName;
+      //var exAntName = exName;
+      var exID = localStorage.selectedExID;
+      //var exAntID = exID;
+      var maxSeries = 0;
+      var restTime = 2;
+      //var serAnt = 0;
 
+
+      //initialize variables
+      $( document ).ready(function() {
+
+        for(var i = 0 ; i < ex.exercises.length ; i++){
+          if(ex.exercises[i].ID == parseInt(exID)){
+            maxSeries = ex.exercises[i].reps;
+            timeLeft = ex.exercises[i].rest;
+            restTime = ex.exercises[i].rest;
+          }
+        }
+      });
+
+      //set exercise name in the page
       $( "#exName" ).ready(function() {
         $("#exName").text(exName);
         $("#numS").text(serieNumber+1);
       });
 
+      //create table to set today results
       $( "#tableToday" ).ready(function() {
         createTableToday();
       });
 
+      //create table to show previous results
       $( "#tableBf" ).ready(function() {
         createTableBefore();
       });
 
+      //table with current data
       function createTableToday(){
         var append = '	<tr class="w3-black">'
         +'          <th colspan="3">Today</th>'
         +'        </tr>'
         +'        <tr class="w3-orange">'
         +'          <td>Serie</td>  '
-        +'          <td>Weight</td> '
         +'          <td>Reps</td>'
+        +'          <td>Weight</td> '
         +'        </tr>';
         for(var i = 0 ; i < maxSeries ; i++){
           append += '<tr>';
@@ -176,79 +164,70 @@
           $("#tableToday").removeClass("singleTable");
           $("#tableToday").addClass("doubleTable");
           //alert(localStorage.lastResults);
-          var series = JSON.parse(localStorage.lastResults).series;
+          var series = JSON.parse(localStorage.lastResults);
           //alert(JSON.stringify(series));
 
-          var counter = 0;
-
-          while(series[counter].exID != exID && counter < 1000){
-            counter++;
+          var exercisePos = 0;
+          //find exercise
+          for(var i = 0 ; i < series.series.length ; i++){
+            if(series.series[i].exID == exID){
+              exercisePos = i;
+              break;
+            }
           }
-
-          //alert("position = " + counter);
-
-          var lastData = series;
+          //alert(exercisePos);
+          //alert(exID);
+          var lastData = series.series;
 
           var append = '	<tr class="w3-black">'
           +'          <th colspan="3">'+ lastData[0].dateDone +'</th>'
           +'        </tr>'
           +'        <tr class="w3-orange">'
           +'          <td>Serie</td>  '
-          +'          <td>Weight</td> '
           +'          <td>Reps</td>'
+          +'          <td>Weight</td> '
+
           +'        </tr>';
 
-          var max = parseInt(maxSeries) + parseInt(counter);
-          //alert("maxseries= " + maxSeries + "counter= " + counter);
-          for(var i = counter, j = 0 ; i < max ; i++, j++){
+          var max = parseInt(maxSeries) + parseInt(exercisePos);
+          //alert(exercisePos);
+          $(valueWeight).val(lastData[exercisePos].weight);
+          $(valueRep).val(lastData[exercisePos].reps);
+
+          for(var i = exercisePos, j = 0 ; i < max ; i++, j++){
             append += '<tr>';
             append += '<td>'+ (j+1) +'</td>';
-            append += '<td id="Wbf' + j +'">' + series[i].weight +' </td>';
-            append += '<td id="Rbf' + j +'">' + series[i].reps +' </td>';
+            append += '<td id="Rbf' + j +'">' + lastData[i].reps +' </td>';
+            append += '<td id="Wbf' + j +'">' + lastData[i].weight +' </td>';
             append += '</tr>';
           }
           $("#tableBf").html(append);
         }
+
       }
 
       function doneSer(){
         document.getElementById('modalDone').style.display='block';
         $("#btnDone").addClass("w3-hide");
+        $("#btnSkip").removeClass("w3-hide");
 
         if(serieNumber == maxSeries - 1){
-          if(workoutNumber == maxExerc -1){
-            $("#exName").text("Finished");
-            elem.innerHTML = ';D';
-            $("#btnDone").addClass("w3-hide");
-            $("#btnSaveR").removeClass("w3-hide");
-            $("#congrat").text("Congratulations");
-            $("#numS").text(" ");
-            serAnt = serieNumber;
-            exAntName = ex.exercises[workoutNumber].name;
-            exAntID =  ex.exercises[workoutNumber].ID;
-          }else{
-            exAntName = exName;
-            exAntID = exID;
-            workoutNumber++;
-            serAnt = serieNumber;
-            serieNumber = 0;
-            //alert("a");
-            maxSeries = ex.exercises[workoutNumber].reps;
-            //alert("att name");
-            exName = ex.exercises[workoutNumber].name;
-            exID =  ex.exercises[workoutNumber].ID;
-            timerID = setInterval(countdown, 1000);
-            $("#exName").text(ex.exercises[workoutNumber].name);
-            $("#numS").text(serieNumber+1);
-            createTableToday();
-            createTableBefore();
-          }
+          $("#exName").text("Finished");
+          elem.innerHTML = ';D';
+          $("#congrat").text("Congratulations");
+          $("#btnDone").addClass("w3-hide");
+          $("#btnSkip").addClass("w3-hide");
+          $("#btnSaveR").removeClass("w3-hide");
+          $("#numS").text(" ");
+          serAnt = serieNumber;
+          //exAntName = ex.exercises[workoutNumber].name;
+          //exAntID =  ex.exercises[workoutNumber].ID;
         }else{
           //alert("att serie");
-          exAntName = exName;
-          exAntID = exID;
+          //exAntName = exName;
+          //exAntID = exID;
+          serAnt = serieNumber;
           serieNumber++;
-          serAnt = serieNumber - 1;
           $("#numS").text(serieNumber+1);
           timerID = setInterval(countdown, 1000);
         }
@@ -257,9 +236,10 @@
       function countdown() {
         if (timeLeft == 0) {
           clearTimeout(timerID);
-          timeLeft = ex.exercises[workoutNumber].rest;
+          timeLeft = restTime;
           elem.innerHTML = 'GO';
           $("#btnDone").removeClass("w3-hide");
+          $("#btnSkip").addClass("w3-hide");
         } else {
           elem.innerHTML = timeLeft;
           timeLeft--;
@@ -268,31 +248,79 @@
 
       function saveResults(){
         var serie = {
-          "exercise" : exAntID,
+          "exercise" : exID,
           "serieNumber" : serAnt,
           "reps" : $(valueRep).val(),
           "weight": $(valueWeight).val(),
           "wkID" : localStorage.selectedWkID
         }
         //alert("pushing");
-        exResults.series.push(serie);
-        //alert("pushed");
-        //alert(JSON.stringify(exResults));
-        document.getElementById('modalDone').style.display='none'
-        if(serAnt < serieNumber || (maxExerc-1 == workoutNumber && serieNumber == maxSeries)){
-          setTable();
-          //alert(serAnt+1);
-          //alert(maxSeries);
+        if(localStorage.finalWkResults == undefined){
+          var exResults = {
+            "series" : []
+          };
+          exResults.series.push(serie);
+          localStorage.finalWkResults = JSON.stringify(exResults);
+          //alert(localStorage.finalWkResults);
+        }else{
+          var exResults = JSON.parse(localStorage.finalWkResults);
+          exResults.series.push(serie);
+          localStorage.finalWkResults = JSON.stringify(exResults);
+          //alert(localStorage.finalWkResults);
         }
+        //alert("pushed");
+
+        document.getElementById('modalDone').style.display='none'
+        setTable();
+
+
+        //alert(serAnt+1);
+        //alert(maxSeries);
       }
 
       function finish(){
         //alert("congrats");
-        localStorage.finalWkResults = JSON.stringify(exResults);
-        finishWorkout();
+        //localStorage.finalWkResults = JSON.stringify(exResults);
+        //finishWorkout();
+        if(localStorage.completedEx == undefined){
+          var completed = [parseInt(exID)];
+          localStorage.completedEx = JSON.stringify(completed);
+        }
+        else{
+          var completed = JSON.parse(localStorage.completedEx);
+          completed.push(parseInt(exID));
+          localStorage.completedEx = JSON.stringify(completed);
+        }
+        //alert(localStorage.completedEx);
+        location.href = 'workout.html';
       }
 
+      function skipTime(){
+        timeLeft = 0;
+      }
 
+      $('#btnSkip').mousedown(function(e) {
+        //e.preventDefault();
+        var elem = document.getElementById("barSkip");
+        width = 1;
+        intervalBar = setInterval(frame, 10);
+        function frame() {
+          if (width >= 100) {
+            clearInterval(intervalBar);
+          } else {
+            width++;
+            elem.style.width = width + '%';
+          }
+        }
+      });
+
+      $('#btnSkip').mouseup(function(e) {
+        e.preventDefault();
+        clearInterval(intervalBar);
+        if(width == 100){
+          skipTime();
+        }
+      });
 
     </script>
 

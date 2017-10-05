@@ -36,44 +36,68 @@
 
         <div class="w3-container loadIcon divSelectWork" id="workoutViewer">
           <div id="load" class="loadIcon w3-center w3-opacity w3-allerta" ><i class="fa fa-spinner fa-spin mySpin" style="font-size:10vh"></i><br><br>Loading...</div>
-          <!--<div class="w3-container w3-red w3-border exercise">
-Brench Press - 15.5kg<br>
-reps: 10 10 10 10
-</div>
-<div class="w3-container w3-blue w3-border exercise">
-Brench Press - 15.5kg<br>
-reps: 10 10 10 10
-</div>
-<div class="w3-container  w3-border exercise">
-Brench Press - 15.5kg<br>
-reps: 10 10 10 10
-</div>
-<div class="w3-container w3-border exercise">
-Brench Press - 15.5kg<br>
-reps: 10 10 10 10
-</div>
-<div class="w3-container w3-border exercise">
-Brench Press - 15.5kg<br>
-reps: 10 10 10 10
-</div>-->
         </div>
 
-        <div class="w3-container w3-button addNew w3-border w3-round-large w3-yellow w3-padding w3-hover-black" onclick="location.href = 'edit.html';">Edit&emsp;<i class="fa fa-pencil"></i></div>
+        <div class="w3-right w3-container w3-button addNew w3-border w3-large w3-circle w3-theme-l2 w3-hover-black w3-padding" onclick="location.href = 'edit.html';"><i class="fa fa-pencil"></i></div>
         <br>
-        <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-green w3-hover-black " onclick="document.getElementById('loadingModal').style.display='block';startPressed()">START&emsp;<i class="fa fa-play"></i></div>
+        <br><br><button id="btnStart" class=" w3-container w3-disabled w3-button start w3-border w3-round-large w3-theme-l1 w3-hover-black " onclick="document.getElementById('loadingModal').style.display='block';startPressed()" disabled>START&emsp;<i class="fa fa-play"></i></button>
+        <br><div id="btnFinWk" class=" w3-center w3-container w3-allerta w3-button w3-theme-l5 w3-round-large " onclick="" ><span id="spanfinish">Finish</span><div id="completeBar" class="w3-green"></div></div>
 
       </div>
       <div id="loadingModal" class="w3-modal w3-white">
-          <div class="w3-container w3-padding contaienerLoading">
+        <div class="w3-container w3-padding contaienerLoading">
 
-            <div id="load" class=" loadIcon w3-center w3-allerta" ><span class="w3-text-orange fontAlert">Loading...</span> <br><i class="fa fa-spinner fa-spin mySpin" style="font-size:10vh"></i><br><br>Getting your previous <br> workout data...</div>
+          <div id="load" class=" loadIcon w3-center w3-allerta" ><span class="w3-text-orange fontAlert">Loading...</span> <br><i class="fa fa-spinner fa-spin mySpin" style="font-size:10vh"></i><br><br>Getting your previous <br> workout data...</div>
 
+        </div>
+      </div>
+      <div id="confirmModal" class="w3-modal">
+        <div class="w3-modal-content w3-card-4">
+          <header class="w3-container w3-theme-l2 w3-padding w3-center">
+            <a class="fontTitleExtraSmall w3-allerta ">You hadn't finished your workout yet.<br>Do you really want to give up?</a>
+          </header>
+
+          <div class="w3-container modalOptions w3-theme-l4 w3-center">
+            <div class="w3-container w3-button confirmEdit w3-border w3-round-large w3-green w3-hover-black " onclick="finishWorkout()">Confirm &emsp;<i class="fa fa-check"></i></div>
+            <div class="w3-container w3-button confirmEdit w3-border w3-round-large w3-red w3-hover-black " onclick="document.getElementById('confirmModal').style.display='none'">Cancel &emsp;<i class="fa fa-close"></i></div>
           </div>
+        </div>
       </div>
 
     </div>
 
     <script>
+      var intervalBar;
+      var width;
+      $('#btnFinWk').mousedown(function(e) {
+        //e.preventDefault();
+        var elem = document.getElementById("completeBar");
+        width = 1;
+        intervalBar = setInterval(frame, 10);
+        function frame() {
+          if (width >= 100) {
+            clearInterval(intervalBar);
+          } else {
+            width++;
+            elem.style.width = width + '%';
+          }
+        }
+      });
+
+      $('#btnFinWk').mouseup(function(e) {
+        e.preventDefault();
+        clearInterval(intervalBar);
+        if(width == 100){
+          //alert(localStorage.completedWorkout);
+          if(localStorage.completedWorkout == "true") {
+            finishWorkout();
+          }
+          else{
+            document.getElementById('confirmModal').style.display='block';
+          }
+        }
+      });
+
       function openNav() {
         var x = document.getElementById("menuMobile");
         if (x.className.indexOf("w3-show") == -1) {
@@ -85,19 +109,21 @@ reps: 10 10 10 10
 
       $( "#workoutViewer" ).ready(function() {
         getexercises();
-        localStorage.removeItem("lastResults");
+        getLastResults();
+        //localStorage.removeItem("lastResults");
         var exsHTML = "";
         var element =  $("#workoutViewer");
         var exs = JSON.parse(localStorage.exs);
         $( "#load" ).addClass("w3-hide");
 
         for(i in exs.exercises){
-          exsHTML += '<div class="w3-container w3-orange w3-border exercise">'+
+          exsHTML += '<a href="#"><div id="ex' +exs.exercises[i].ID+'" class="w3-container w3-theme-l4 w3-border w3-round w3-round-large exercise" onclick="selectEx(' + exs.exercises[i].ID + ',\'' + exs.exercises[i].name + '\')">'+
             exs.exercises[i].name + ' - ' + exs.exercises[i].weight + 'kg<br>'+
             'Rest: ' + exs.exercises[i].rest + 's' +
-            '</div>';
+            '</div></a>';
         }
         element.html(exsHTML);
+        setCompleteds();
       });
 
       $( "#nameWork" ).ready(function() {
@@ -107,10 +133,12 @@ reps: 10 10 10 10
       });
 
       function startPressed(){
-        getLastResults();
-        //document.getElementById('loadingModal').style.display='none';
+        localStorage.startedWk = true;
         location.href = 'start.html';
       }
+
+
+
     </script>
   </body>
 </html>

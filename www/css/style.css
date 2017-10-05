@@ -67,8 +67,8 @@ html, body {
 }
 
 .textFontSize {
-  font-size: 3vh;
-  text-shadow: 0.2vh 0.2vh 0.2vh orange;
+  font-size: 4vh;
+  letter-spacing: 0.2vh;
 }
 
 .fundo {
@@ -90,7 +90,7 @@ html, body {
 }
 
 .divSelectWork {
-  height: 40vh;
+  height: 35vh;
   padding: 0;
   overflow: scroll;
 
@@ -101,15 +101,13 @@ html, body {
 }
 
 .addNew {
-  font-size: 3vh;
-  margin-top: 5vh;
-  padding: 1vh;
+  font-size: 1vh;
 }
 
 .start {
-  margin-top: 4vh;
   padding:1vh;
-  font-size: 4.5vh;
+  clear: both;
+  font-size: 4vh;
 }
 
 #menuMobile {
@@ -123,6 +121,10 @@ html, body {
   width: 100%;
   margin:0;
   padding:0;
+}
+
+a {
+  text-decoration: none;
 }
 
 .fontTitleSmall {
@@ -260,6 +262,9 @@ tr:nth-child(even) {
 
 #btnDone {
   margin: 5%;
+  height: 8vh;
+  width: 22vh;
+  padding:0;
 }
 
 #tableToday {
@@ -330,4 +335,62 @@ tr:nth-child(even) {
 
 .fontAlert {
   font-size: 5vh ;
+}
+
+#btnFinWk {
+  margin-top: 4vh;
+  font-size: 5vh;
+  width: 22vh;
+  height: 9vh;
+  padding:0;
+  border: 0.7vh solid black;
+}
+
+.coonfirmbtn {
+    margin-top: 5vh;
+  padding:1vh;
+  font-size: 4vh;
+}
+
+#completeBar {
+  min-height: 100%;
+  width: 0;
+  max-width: 100%;
+  margin: 0;
+}
+
+#spanfinish {
+  background-color: transparent;
+  float: left;
+  margin-left: 14%;
+}
+
+.modalOptions {
+  padding: 5vh;
+}
+
+.fontTitleExtraSmall {
+  font-size: 3.5vh;
+}
+
+#btnSkip {
+  margin: 5%;
+  font-size: 4vh;
+  width: 22vh;
+  height: 8vh;
+  padding:0;
+}
+
+#barSkip {
+  min-height: 100%;
+  width: 0;
+  max-width: 100%;
+  margin: 0;
+}
+
+#spanskip {
+  background-color: transparent;
+  float: left;
+  margin-left: 29%;
+  margin-top: 4%;
 }
