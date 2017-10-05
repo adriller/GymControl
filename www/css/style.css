@@ -85,15 +85,16 @@ html, body {
 }
 
 .selectWork {
-  width: 100%;
   font-size: 3vh;
+  width: 100%;
+  margin:0;
+  padding:1vh;
 }
 
 .divSelectWork {
-  height: 35vh;
+  max-height: 35vh;
   padding: 0;
   overflow: scroll;
-
 }
 
 .divMain {
@@ -101,17 +102,25 @@ html, body {
 }
 
 .addNew {
-  font-size: 1vh;
+  display: block;
+  margin-top:2vh;
+  height: 7vh;
+  width: 7vh;
+  padding:1vh;
+  z-index: 0;
+  border-radius: 50%;
 }
 
 .start {
   padding:1vh;
-  clear: both;
   font-size: 4vh;
+  bottom: 2%;
 }
 
 #menuMobile {
+font-size: 2vh;
 }
+
 
 ::-webkit-scrollbar {
     display: none;
@@ -162,6 +171,8 @@ a {
 .nomeEx {
   font-size: 6vh;
   text-shadow: 0.2vh 0.2vh 0.2vh black;
+  max-height: 10vh;
+  overflow: scroll;
 }
 
 .nomeExDiv {
@@ -268,7 +279,8 @@ tr:nth-child(even) {
 }
 
 #tableToday {
-
+ width:90%;
+  margin-left: 5%;
 }
 
 #btnSaveR {
@@ -338,7 +350,6 @@ tr:nth-child(even) {
 }
 
 #btnFinWk {
-  margin-top: 4vh;
   font-size: 5vh;
   width: 22vh;
   height: 9vh;
@@ -393,4 +404,96 @@ tr:nth-child(even) {
   float: left;
   margin-left: 29%;
   margin-top: 4%;
+}
+
+.boxShadow {
+  box-shadow: 5px 5px 5px #888888;
+}
+
+.littleBoxShadow {
+  box-shadow: 4px 4px 3px #888888;
+}
+
+.tinyBoxShadow {
+  box-shadow: 2px 2px 3px #888888;
+}
+
+.margin20 {
+  margin-top: 20vh;
+}
+
+.margin15 {
+  margin-top: 7vh;
+}
+
+.margin10 {
+  margin-top:5vh;
+}
+
+.save1 {
+  position: absolute;
+  padding:1vh;
+  font-size: 4vh;
+  bottom: 10%;
+  left:12%
+}
+
+.buttons {
+}
+
+.save2 {
+  position: absolute;
+  padding:1vh;
+  font-size: 4vh;
+  bottom: 10%;
+  right:12%
+}
+
+.save0 {
+    position: absolute;
+  padding:1vh;
+  font-size: 4vh;
+  bottom: 10.5%;
+  left:12%
+}
+
+.save3 {
+  position:absolute;
+  width: 24vh;
+  height:8vh;
+  font-size: 3.5vh;
+  bottom: 10%;
+  padding:0;
+  margin-top: -4vh; /* Negative half of height. */
+margin-left: -12vh; /* Negative half of width. */
+}
+
+.divTable {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 25vh;
+  width: 50%;
+  font-size: 1vh;
+  float: left;
+}
+
+#tableBf {
+  width:90%;
+margin-left: 5%;
+}
+
+.littleBoxShadowColor {
+  box-shadow: 5px 5px 5px rgba(100, 100, 100, 0.8);
+}
+
+.spanHold {
+  font-size: 5vmin;
+  margin-left: 40%;
+  color: orange;
+}
+
+.fixedBotPlus {
+  position:absolute;
+  bottom: 25%;
+  right: 10%;
 }

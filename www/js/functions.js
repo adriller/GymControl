@@ -26,13 +26,17 @@ var resultsPage = "http://localhost/servGymControl/getLastResult.php";
 
 //select workout
 function select(id, nameWk){
+  $('#wk' + id).removeClass("w3-theme-l4");
   $('#wk' + id).addClass("w3-black");
 
   var prevWork = localStorage.selectedWkID;
 
-  if(prevWork != null && prevWork != id)
+  if(prevWork != null && prevWork != id){
     $('#wk' + prevWork).removeClass("w3-black");
+    $('#wk' + prevWork).addClass("w3-theme-l4");
+  }
 
+  $("#btnStart").addClass("littleBoxShadow");
   $("#btnStart").removeClass("w3-disabled");
   $('#btnStart').removeAttr("disabled");
 
@@ -54,6 +58,7 @@ function selectEx(id, nameEx){
   }
 
   $("#btnStart").removeClass("w3-disabled");
+  $("#btnStart").addClass("littleBoxShadow");
   $('#btnStart').removeAttr("disabled");
 
   localStorage.selectedExID = id;
@@ -87,11 +92,32 @@ function setCompleteds(){
   }
 }
 
+function changeButtonName(id, namebefore, nameafter){
+  //alert(namebefore);
+  $("#" + id).html(namebefore);
+  var count = 0;
+
+  var interval = setInterval(frame, 15);
+  function frame() {
+    if (count >= 100) {
+      clearInterval(interval);
+      changeName(id, nameafter, namebefore);
+    } else {
+      count++;
+    }
+  }
+}
+
+function changeName(id, namebefore, nameafter){
+  $("#" + id).html(namebefore);
+}
+
 //logout
 function logOut(){
   localStorage.removeItem("userEmail");
   localStorage.removeItem("userSenha");
   location.href = 'index.html';
+  resetVariables();
 }
 
 

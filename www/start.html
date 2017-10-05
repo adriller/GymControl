@@ -27,19 +27,23 @@
       </div>
 
       <div class="w3-container w3-center w3-allerta lastInfo w3-text-light-gray">
-        <table id="tableBf">
-        </table>
+        <div class="divTable">
+          <table id="tableBf" class="littleBoxShadowColor">
+          </table>
+        </div>
 
-        <table id="tableToday" class="">
-        </table>
+        <div class="divTable">
+          <table id="tableToday" class="littleBoxShadowColor singleTable">
+          </table>
+        </div>
       </div>
 
       <div class="w3-container  w3-center w3-margin">
-        <button id="btnDone" class="w3-button w3-theme-l2 w3-round-large textFontSize w3-allerta" onclick="doneSer()">Done !</button>
+        <button id="btnDone" class="w3-button w3-theme-l2 w3-round-large littleBoxShadowColor textFontSize w3-allerta" onclick="doneSer()">Done !</button>
 
-        <button id="btnSkip" class="w3-hide w3-button w3-theme-l5 w3-round-large textFontSize w3-allerta" onclick=""><span id="spanskip">Skip</span><div id="barSkip" class="w3-theme-l2"></div></button>
+        <button id="btnSkip" class="w3-hide w3-button w3-theme-l5 w3-round-large littleBoxShadow textFontSize w3-allerta" onclick="changeButtonName('spanskip', 'Hold', 'Skip')"><span id="spanskip">Skip</span><div id="barSkip" class="w3-theme-l2"></div></button>
 
-        <button id="btnSaveR" class="w3-hide w3-button w3-green w3-round-large  w3-allerta" onclick="finish()">Finish</button>
+        <button id="btnSaveR" class="w3-hide w3-button w3-green w3-round-large littleBoxShadow w3-allerta" onclick="finish()">Finish</button>
       </div>
 
 
@@ -55,7 +59,7 @@
               <div id="minusRep" class="w3-container signSize " onclick="minusReps()">&ndash;
               </div>
               <div class="w3-container inputSize ">
-                <input id="valueRep" value="0" />
+                <input type="number" id="valueRep" value="0" step="0.01" />
               </div>
               <div id="plusRep" class="w3-container signSize "  onclick="plusReps()">+
               </div>
@@ -67,7 +71,7 @@
               <div id="minusWeight" class="w3-container signSize " onclick="minusWeights()">&ndash;
               </div>
               <div class="w3-container inputSize ">
-                <input id="valueWeight" value="0" />
+                <input type="number" id="valueWeight" value="0" step="0.01" />
               </div>
               <div id="plusWeight" class="w3-container signSize "  onclick="plusWeights()">+
               </div>
@@ -142,8 +146,8 @@
         for(var i = 0 ; i < maxSeries ; i++){
           append += '<tr>';
           append += '<td>'+ (i+1) +'</td>';
-          append += '<td id="Wtoday' + i +'"> </td>';
           append += '<td id="Rtoday' + i +'"> </td>';
+          append += '<td id="Wtoday' + i +'"> </td>';
           append += '</tr>';
         }
         $("#tableToday").html(append);
@@ -155,9 +159,16 @@
       }
 
       function createTableBefore(){
+        //alert(localStorage.lastResults);
         if(localStorage.lastResults === undefined){
           $("#tableToday").removeClass("doubleTable");
           $("#tableToday").addClass("singleTable");
+          $(".divTable").css({   'overflow-y': 'scroll',
+                              'overflow-x': 'hidden',
+                              'max-height': '25vh',
+                              'width': '50%',
+                              'font-size': '1vh',
+                              'margin-left': '26%' });
           //alert("single table");
         }
         else{

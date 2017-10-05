@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="js/functions.js"></script>
     <!--Design Libraries-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -34,7 +35,7 @@
       <div class="w3-container w3-center w3-padding w3-light-gray divMain">
         <h1 class="w3-allerta w3-text-black bigFont">Select workout</h1>
 
-        <div class="w3-container divSelectWork" id="workoutsPanel">
+        <div class="w3-container boxShadow divSelectWork" id="workoutsPanel">
           <div id="load" class=" loadIcon w3-center w3-opacity w3-allerta" ><i class="fa fa-spinner fa-spin mySpin" style="font-size:10vh"></i><br><br>Loading...</div>
           <!--<a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk1" onclick="select(wk1)">Chest & Triceps</a>
 <a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk2" onclick="select(wk2)">Legs & Calves</a>
@@ -45,9 +46,9 @@
 
         </div>
 
-        <div class="w3-right w3-container w3-button addNew w3-border w3-large w3-circle w3-padding w3-ripple w3-theme-l2 w3-hover-black" onclick="addnewWkModal()">+</div>
+        <div class="w3-right w3-button  addNew fixedBotPlus tinyBoxShadow w3-border w3-ripple w3-theme-l2 w3-hover-black" onclick="addnewWkModal()">+</div>
         <br>
-        <br><br><button id="btnStart" class="w3-disabled w3-container w3-button start w3-border w3-round-large w3-theme-l1 w3-hover-black "  onclick="goToWorkouts()" disabled >Confirm &emsp;<i class="fa fa-check-square-o"></i></button>
+        <br><br><button id="btnStart" class="w3-disabled w3-button save3 w3-border w3-round-large w3-theme-l1 w3-hover-black "  onclick="goToWorkouts()" disabled >Confirm &emsp;<i class="fa fa-check-square-o"></i></button>
 
       </div>
       <div id="modalNewWk" class="w3-modal">
@@ -109,7 +110,7 @@
         var wks = JSON.parse(localStorage.wks);
         $( "#load" ).addClass("w3-hide");
         for(i in wks.workouts){
-          wksHTML += '<a href="#" class="w3-bar-item w3-hover-black w3-border w3-round-large w3-button w3-text-orange selectWork " id="wk' + wks.workouts[i].ID +'" onclick="select(' + wks.workouts[i].ID + ',\'' + wks.workouts[i].name  +'\')">' + wks.workouts[i].name + '</a>';
+          wksHTML += '<a href="#" class="boxShadow w3-hover-black w3-border w3-round-large w3-button w3-theme-l4 selectWork " id="wk' + wks.workouts[i].ID +'" onclick="select(' + wks.workouts[i].ID + ',\'' + wks.workouts[i].name  +'\')">' + wks.workouts[i].name + '</a>';
         }
         element.html(wksHTML);
       });

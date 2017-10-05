@@ -39,11 +39,12 @@
         </div>
 
         <div class="w3-container lineBreak">
-          <div class=" w3-button w3-circle w3-border plusBtn w3-right w3-theme-l2 w3-hover-black " onclick="openNewEx()"><i class="fa fa-plus"></i></div>
+          <div class=" w3-button w3-border addNew fixedBotPlus w3-theme-l2 w3-hover-black " onclick="openNewEx()">+</div>
         </div>
-
-        <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-green w3-hover-black " onclick="sendWk()">Save &emsp;<i class="fa fa-floppy-o"></i></div>
-        <div id="btnStart" class="w3-container w3-button start w3-border w3-round-large w3-text-white w3-theme-l2 w3-hover-black " onclick="location.href = 'main.html';">Back &emsp;<i class="fa fa-arrow-circle-o-left"></i></div>
+        <div class="buttons">
+          <div id="btnStart" class="w3-container w3-button save1 w3-border w3-round-large w3-green w3-hover-black " onclick="sendWk()">Save &emsp;<i class="fa fa-floppy-o"></i></div>
+          <div id="btnStart" class="w3-container w3-button save2 w3-border w3-round-large w3-text-white w3-theme-l2 w3-hover-black " onclick="location.href = 'main.html';">Back &emsp;<i class="fa fa-arrow-circle-o-left"></i></div>
+        </div>
 
         <div id="modalEdit" class="w3-modal">
           <div class="w3-modal-content w3-card-4">
@@ -59,7 +60,7 @@
                 <input id="iexName"class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="text" required>
 
                 <label class="w3-text-black labelEdit w3-left">Weight</label>
-                <input id="iexWeight" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="number" required>
+                <input id="iexWeight" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="number" step="0.01" required>
 
                 <label class="w3-text-black labelEdit w3-left">Number of series</label>
                 <input id="iexSeries" class="w3-input w3-border-bottom w3-border-black loginInput textFontSize" type="number" required>
