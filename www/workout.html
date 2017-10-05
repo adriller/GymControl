@@ -100,7 +100,7 @@
 
       var intervalBar;
       var width;
-      $('#btnFinWk').mousedown(function(e) {
+      $('btnFinWk').bind( "touchstart", function(e){
         //e.preventDefault();
         var elem = document.getElementById("completeBar");
         width = 1;
@@ -115,7 +115,7 @@
         }
       });
 
-      $('#btnFinWk').mouseup(function(e) {
+      $('btnFinWk').bind( "touchend", function(e){
         e.preventDefault();
         clearInterval(intervalBar);
         if(width == 100){
